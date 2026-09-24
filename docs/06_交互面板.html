@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="yOyM8onVDDzvOJB0Y4rVpk">
+<head data-page-node-id="EgxvXBwI9zvhv96b5z4FIn">
+<meta charset="UTF-8" data-page-node-id="nBJpFNnUkhpkdaFPeFTa7G">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="VMxTVSd9V8xshrfdZtEINo">
+<title>WorkBuddy 零基础培训课程 · 交互面板</title>
+<style>
+:root{
+  --navy:#1F3B63; --navy2:#1F4E79; --blue:#2E6DA4; --sky:#DCE6F1;
+  --bg:#F4F6FA; --card:#FFFFFF; --line:#E3E8F0; --txt:#2B3445; --muted:#6B7686;
+  --ok:#1E8E5A; --warn:#B7791F; --bad:#C0392B; --gold:#B7791F;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--txt);font-size:14px;line-height:1.65}
+/* ---------- header ---------- */
+header{background:linear-gradient(135deg,#16304F 0%,var(--navy) 55%,var(--navy2) 100%);color:#fff;padding:26px 34px 0}
+.h-top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+.h-title h1{font-size:23px;letter-spacing:1px}
+.h-title p{opacity:.75;font-size:12.5px;margin-top:4px}
+.h-badge{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:5px 14px;font-size:12px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 0}
+.stat{flex:1;min-width:110px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:10px 14px}
+.stat b{display:block;font-size:22px}
+.stat span{font-size:11.5px;opacity:.78}
+nav{display:flex;gap:4px;margin-top:18px;flex-wrap:wrap}
+nav button{background:transparent;border:none;color:rgba(255,255,255,.75);padding:11px 20px;font-size:14px;cursor:pointer;border-radius:10px 10px 0 0;font-family:inherit}
+nav button:hover{color:#fff;background:rgba(255,255,255,.08)}
+nav button.on{background:var(--bg);color:var(--navy);font-weight:bold}
+/* ---------- layout ---------- */
+main{max-width:1200px;margin:0 auto;padding:24px 22px 60px}
+section.tab{display:none}
+section.tab.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(31,59,99,.05)}
+h2.sec{font-size:16px;color:var(--navy);border-left:4px solid var(--navy);padding-left:10px;margin-bottom:14px}
+h3.sub{font-size:14px;color:var(--navy2);margin:14px 0 8px}
+.muted{color:var(--muted);font-size:12.5px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--navy);color:#fff;padding:8px 10px;text-align:left;font-weight:600;white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:#F8FAFD}
+.pill{display:inline-block;border-radius:20px;padding:1px 10px;font-size:11.5px;font-weight:600}
+.pill.navy{background:var(--sky);color:var(--navy)}
+.pill.ok{background:#E2F3EA;color:var(--ok)}
+.pill.warn{background:#FBF0DA;color:var(--gold)}
+.pill.bad{background:#FBE4E1;color:var(--bad)}
+.pill.blue{background:#E3EEF9;color:var(--blue)}
+/* ---------- overview ---------- */
+.path{display:flex;gap:0;align-items:stretch;flex-wrap:wrap;margin:6px 0 4px}
+.wk{flex:1;min-width:200px;position:relative;padding:14px 16px 14px 26px;background:var(--sky);border-top:4px solid var(--navy);margin-right:26px;margin-bottom:8px;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 50%,calc(100% - 18px) 100%,0 100%)}
+.wk:last-child{clip-path:polygon(0 0,100% 0,100% 100%,0 100%);margin-right:0}
+.wk b{color:var(--navy);font-size:14.5px}
+.wk .tag{font-size:16px;font-weight:800;color:var(--navy2)}
+.wk p{font-size:12px;color:var(--muted);margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+.kv{display:flex;gap:8px;margin:5px 0;font-size:13px}
+.kv i{flex:none;width:76px;font-style:normal;color:var(--muted)}
+.timebar{display:flex;height:30px;border-radius:8px;overflow:hidden;font-size:11.5px;color:#fff;text-align:center;line-height:30px;margin:8px 0 2px}
+.timebar div{flex:none}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:6px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.donut-wrap{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.donut{width:170px;height:170px;border-radius:50%;background:conic-gradient(var(--navy) 0 216deg,var(--blue) 216deg 270deg,#5B8DC9 270deg 288deg,#8FB3D9 288deg 306deg,#C3D5EA 306deg 360deg);position:relative;flex:none}
+.donut::after{content:"40 + 60\A权重";white-space:pre;position:absolute;inset:34px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:var(--navy);font-size:15px}
+/* ---------- lessons ---------- */
+.lesson{border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:12px;overflow:hidden}
+.lesson-head{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none}
+.lesson-head:hover{background:#F6F9FD}
+.kcode{flex:none;width:44px;height:44px;border-radius:10px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+.lesson-head .lt{flex:1}
+.lesson-head .lt b{font-size:14.5px}
+.lesson-head .lt span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.arrow{color:var(--muted);transition:.2s;font-size:13px}
+.lesson.open .arrow{transform:rotate(90deg)}
+.lesson-body{display:none;border-top:1px solid var(--line);padding:16px 18px;background:#FBFCFE}
+.lesson.open .lesson-body{display:block}
+.goal{background:var(--sky);border-radius:8px;padding:10px 14px;font-size:12.5px;margin-bottom:12px}
+.goal b{color:var(--navy)}
+table.pages td:first-child{text-align:center;font-weight:700;color:var(--navy);white-space:nowrap}
+table.pages td:nth-child(5){text-align:center;white-space:nowrap;color:var(--navy2);font-weight:600}
+.point{white-space:pre-line}
+.script{font-size:12.5px;color:#44506A}
+/* ---------- cards ---------- */
+.filterbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filterbar button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 16px;cursor:pointer;font-size:12.5px;color:var(--muted);font-family:inherit}
+.filterbar button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tcard{border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:12px;overflow:hidden}
+.tcard-head{display:flex;align-items:center;gap:10px;padding:13px 18px;cursor:pointer}
+.tcard-head:hover{background:#F6F9FD}
+.tcard-body{display:none;border-top:1px solid var(--line);padding:16px 18px;background:#FBFCFE}
+.tcard.open .tcard-body{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:860px){.tcard.open .tcard-body{grid-template-columns:1fr}}
+.tb{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:12.5px}
+.tb b{display:block;color:var(--navy);margin-bottom:5px;font-size:12.5px}
+.tb.pre{white-space:pre-line}
+.chk{white-space:pre-line;font-family:inherit}
+/* ---------- quiz ---------- */
+.qitem{border-left:3px solid var(--navy);background:#fff;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:8px;font-size:13px}
+.qitem .ans{margin-top:4px}
+details{margin-bottom:6px}
+details summary{cursor:pointer;font-weight:600;color:var(--navy);padding:6px 0;list-style:none}
+details summary::before{content:"▸ ";color:var(--blue)}
+details[open] summary::before{content:"▾ "}
+.rub{display:grid;grid-template-columns:90px 1fr 60px;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:12.5px}
+.rub>div{padding:9px 12px;border-bottom:1px solid var(--line)}
+.rub>div:nth-child(3n+1){background:var(--sky);font-weight:700;color:var(--navy)}
+.rub>div:nth-child(3n){text-align:center;font-weight:800;color:var(--navy);background:#F3F7FC}
+/* ---------- misc ---------- */
+.check-list{columns:2;gap:24px;font-size:13px}
+@media(max-width:760px){.check-list{columns:1}}
+.check-list div{break-inside:avoid;margin-bottom:6px;padding-left:22px;position:relative}
+.check-list div::before{content:"✓";position:absolute;left:0;top:0;width:16px;height:16px;background:var(--sky);color:var(--navy);border-radius:4px;font-size:11px;text-align:center;line-height:16px;font-weight:700}
+.tl{border-left:2px solid var(--sky);margin-left:8px;padding-left:20px}
+.tl .ti{position:relative;margin-bottom:12px}
+.tl .ti::before{content:"";position:absolute;left:-27px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--navy);border:3px solid #fff;box-shadow:0 0 0 1px var(--sky)}
+.tl .ti b{color:var(--navy)}
+footer{text-align:center;color:var(--muted);font-size:11.5px;padding:18px 0 30px}
+.print-note{display:none}
+@media print{nav,.filterbar,.arrow{display:none}section.tab{display:block!important}.lesson-body,.tcard-body{display:block!important}}
+</style>
+</head>
+<body data-page-node-id="5JKp9BVyHWvf4j9hGZt0py">
+
+<header data-page-node-id="0JOfgEI5xZb5CVdO7Ed6uY">
+  <div class="h-top" data-page-node-id="xJiJiEhZNuuGPA4VM6dB6p">
+    <div class="h-title" data-page-node-id="rFzVuEEw5WWF00z7lKQkRd">
+      <h1 data-page-node-id="WIJ27AA2BmdrnkCJbFf9Fa">🔧 WorkBuddy 零基础实战训练营 · 课程面板</h1>
+      <p data-page-node-id="0RQwEs3zIziGUKvIWVTTFn">4 周 12 课时螺旋式路径 · 对象：企业内部员工 + OPC 外部协作人员 · 方案 V1.0</p>
+    </div>
+    <div class="h-badge" data-page-node-id="ZrFVKrvlmIwInD8LrbWQTA">企业 AI 办公能力建设系列课程</div>
+  </div>
+  <div class="stats" data-page-node-id="JcsVIFQuBeg9Kf3x74ytM4">
+    <div class="stat" data-page-node-id="RRnOgFojuapSB2UHIaCt0G"><b data-page-node-id="Bv8wRs0rbStA8hjW8B8flX">4 周</b><span data-page-node-id="33JcbZUezIDbx1LUw8doA4">每周半天 · 12 课时</span></div>
+    <div class="stat" data-page-node-id="L3P6EqBW9TjujSraflwXMC"><b data-page-node-id="9YkkwEjbxa06skGdrGUuiM">77 页</b><span data-page-node-id="wFATozrkd9iVfzEFu66WFv">课件逐页脚本</span></div>
+    <div class="stat" data-page-node-id="5JCICRs5AV0EaCFGetLzIB"><b data-page-node-id="3CW2qzpQ31jLgBVs26Cpnj">12 张</b><span data-page-node-id="XEyVQ1wKDeTKfQOZrvS31F">实操任务卡</span></div>
+    <div class="stat" data-page-node-id="MKy0EjRSHAvnoKuPvEKAEF"><b data-page-node-id="vnqLhuHCuMYJPCGETbICaf">30 题</b><span data-page-node-id="BljYP5ygOGXFfsYCqpFjHC">四类题型题库</span></div>
+    <div class="stat" data-page-node-id="tji2EQXhVXHYqUaTil9XKm"><b data-page-node-id="WFqQoLSMuXevYW3xfzryv4">10 份</b><span data-page-node-id="Y7ch4xpltQpD0dkEc9xNCz">脱敏素材 D01-D10</span></div>
+    <div class="stat" data-page-node-id="bfuiAxy730an32xvNp1kwj"><b data-page-node-id="jC3zbm08YiG9La8yxt3R7W">4:6</b><span data-page-node-id="7kVKMgjqCWg5e7ywod8Q7K">讲练比 · 45 分钟/课时</span></div>
+  </div>
+  <nav data-page-node-id="6S5HJtgPjvEpkHXPTkKH83">
+    <button class="on" data-t="t0" data-page-node-id="mUUvUosQ3BeT6Uynny5449">📊 课程总览</button>
+    <button data-t="t1" data-page-node-id="Yhq75HQuCKFUHBDbVMX7Dg">📖 12 课时大纲</button>
+    <button data-t="t2" data-page-node-id="8DX8AoYc6xH7C9O6IMX245">🗂 实操任务卡</button>
+    <button data-t="t3" data-page-node-id="3AVI4g5YgjaIp6NDk86Fta">📝 题库与考核</button>
+    <button data-t="t4" data-page-node-id="23JuBQmvn4eQe20uLKbIDq">📦 素材与环境</button>
+  </nav>
+</header>
+
+<main data-page-node-id="wQmBvXaGXFbeFvS2rjDwqj">
+
+<!-- ============ TAB 0 总览 ============ -->
+<section class="tab on" id="t0" data-page-node-id="MVsgsZYyiXk2P4xCkaYALK">
+  <div class="card" data-page-node-id="jU9dBOcqHRVBwLsBJ7fKVe">
+    <h2 class="sec" data-page-node-id="yfKh5ojcN5neoDbccaaOXC">螺旋式学习路径：每个阶段都走完一次完整闭环</h2>
+    <div class="path" data-page-node-id="RBt8bNQNTrBySE5VZfy6uN">
+      <div class="wk" data-page-node-id="nkHGSSXj5vOcrcQiwwbxNa"><span class="tag" data-page-node-id="sUivRRbLn1fNkGyfQKTWsh">敢用</span><b data-page-node-id="1uYtSrhZCIuRy7YovClm6F">　W1 · M1 破冰与首次交付</b><p data-page-node-id="n1vC6jwaMhw78Jt59XmtOy">K1-K3｜建立心智模型，当堂带走第一份 AI 交付文件，学会迭代与验收</p></div>
+      <div class="wk" data-page-node-id="hDF7pjvc5dUYUv569NLi5u"><span class="tag" data-page-node-id="sSWKJoiaqDRZsf33DpcsA7">常用</span><b data-page-node-id="SRtBjOzmO5JJ7BxUBPZfxe">　W2 · M2 三大高频产出</b><p data-page-node-id="INVmxA84hA3lMnUTeiyIbC">K4-K6｜文档 / 表格 / PPT 三件套，成套材料口径一致</p></div>
+      <div class="wk" data-page-node-id="ECPQTOB2KeWSahrcSvFf8s"><span class="tag" data-page-node-id="4leFLaTIu8AU1uabAhauXk">用好</span><b data-page-node-id="nBn7niKIkURrv5Mx9NJapz">　W3 · M3 指令质量与批量</b><p data-page-node-id="3AKR8E0DBENcNyjCZiwDVj">K7-K9｜五段式指令 + 批量处理 + Skill/专家调用</p></div>
+      <div class="wk" data-page-node-id="ymXlGDgoiuTqFVjSouAdGO"><span class="tag" data-page-node-id="U9ETEFl8ENFDGOGFgavWv6">离不开</span><b data-page-node-id="uLslbYB3gFmI1QqaS1GYRZ">　W4 · M4 自动化与结业</b><p data-page-node-id="iYWDjlG4aXBQRpe41HfDMd">K10-K12｜定时任务跑起来 + 合规验收 + 结业考核</p></div>
+    </div>
+    <p class="muted" data-page-node-id="N8zVPpg34izJ5TxQ0YCMsk">能力在重复的「派活 — 验收 — 改进」闭环里叠加新变量，而不是线性堆知识点。</p>
+  </div>
+
+  <div class="grid2" data-page-node-id="QOD9laFAf8BKfkhaJSEmE2">
+    <div class="card" data-page-node-id="JYBwOuKIGW6wyL6OHmL4Ay">
+      <h2 class="sec" data-page-node-id="f8D1xRmlGHSLAXBZ62dQKJ">单课时 45 分钟节奏</h2>
+      <div class="timebar" data-page-node-id="HxXPFgrB6sBl3jb7ALry6s">
+        <div style="flex:5;background:#5B8DC9" data-page-node-id="r7XR0r6GRE8tgFvU5VALx1">导入 5′</div>
+        <div style="flex:10;background:#8FB3D9" data-page-node-id="WHttH9h0GuH70pcT5dZDJF">讲授 10′</div>
+        <div style="flex:10;background:#4A7FB5" data-page-node-id="qpklkFs8P1qvBWUpKjZqqu">示范 10′</div>
+        <div style="flex:20;background:var(--navy)" data-page-node-id="T1DsAr1Chj1t2HOnVsfzNx">实操 20′</div>
+        <div style="flex:5;background:#C3D5EA;color:#1F3B63" data-page-node-id="35BziuUP3UNSTdXvWMiltn">复盘 5′</div>
+      </div>
+      <div class="legend" data-page-node-id="o2WBkLMUpX5keZbp4XZyZC"><span style="background:#5B8DC9" data-page-node-id="E6QceBiC17QF5AqKVZwDtB"></span>导入<span style="background:#8FB3D9" data-page-node-id="DhltImIoQU7IdAzIWu0lgG"></span>讲授<span style="background:#4A7FB5" data-page-node-id="zxANHBWyc38roQjQn5MjtB"></span>示范<span style="background:var(--navy)" data-page-node-id="j1nZyvPsJG7TG9KDJBalL3"></span>实操<span style="background:#C3D5EA" data-page-node-id="lSgHMCMgL6V0OFKLBG7JV5"></span>复盘</div>
+      <p class="muted" style="margin-top:10px" data-page-node-id="RYFYZ3zUNI4VmAveu0Q3sE">讲练比 4:6。实操环节人手一张任务卡，卡壳满 5 分钟才允许翻看参考步骤。</p>
+    </div>
+    <div class="card" data-page-node-id="FvHy8E2h7uySmhgB3inE7o">
+      <h2 class="sec" data-page-node-id="R0rp8vcsMs3gj9x6k71RUw">考核权重（结业总评）</h2>
+      <div class="donut-wrap" data-page-node-id="uGhDarhiVNj3gyPD6TvD3u">
+        <div class="donut" data-page-node-id="OHJDVXny9awoc9Fl2cnfpz"></div>
+        <div style="font-size:12.5px" data-page-node-id="cPhPfOJ56d3FiOdtdfTZRR">
+          <div class="kv" data-page-node-id="KACmDB0ATwBhYVydN69Cox"><i data-page-node-id="Z2Ek35aYzIkq0UsppOpLml">过程性 40%</i><span data-page-node-id="5MfHGfHQgXEiryFG5w6Tdx">课堂实操 15 + 每周作业 15 + 课堂参与 5 + 出勤 5</span></div>
+          <div class="kv" data-page-node-id="vnENY5HMQpMQ0Q9Wv3PEbd"><i data-page-node-id="XKJi0DE7Ojoe6nUz4JpVas">结业考核 60%</i><span data-page-node-id="sQGxX7uJrgrjfAQLauPS6Q">90 分钟综合实操，双讲师 Rubric 评分取平均</span></div>
+          <div class="kv" data-page-node-id="HeFLZvt25BZ9dgEFp914lc"><i data-page-node-id="fq8MafGLcbGnzy463oiQC8">合格线</i><span data-page-node-id="eyp05HbWIfNLGO4cG0Th32"><span class="pill ok" data-page-node-id="conmFX3Mu4JHRx9mYaePmX">总分 ≥70 合格</span> <span class="pill navy" data-page-node-id="Ay6QiytrDDIxAKmGcgCbtn">≥85 优秀</span></span></div>
+          <div class="kv" data-page-node-id="b4LIjOVXtPM8DtdGOnlliB"><i data-page-node-id="VH8BM1lA7KWu1vJTwvl9Jt">仲裁</i><span data-page-node-id="u6VlbmHkozxb3ZAy5jMhs9">双评分差 &gt;15 分由第三人仲裁</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2" data-page-node-id="553OtNCeW8onluSk0EUBrk">
+    <div class="card" data-page-node-id="PalCVJzDUD9TdFSEvOjLGi">
+      <h2 class="sec" data-page-node-id="nWXivMmkHJ7pghDHByB8Kv">三个关键设计判断</h2>
+      <div class="kv" data-page-node-id="ouq4pVPjJCaSqpLnINnVBH"><i data-page-node-id="kwMqKHoK8DW3z8Ky5b0NNH">① 允许带小抄</i><span data-page-node-id="hFsxWmMtg3DQPIxXP2jxgG">结业考核可携带速查卡与个人自检清单——真实工作就是开着工具干活，考死记硬背没有意义。</span></div>
+      <div class="kv" data-page-node-id="kXr0mxn8xGWXlQBhf9COph"><i data-page-node-id="iCfw2pzKEI007R3wOMyVCm">② 专练「找错」</i><span data-page-node-id="wMDRl85alB8xVMaYz3eaXh">K11 预埋 5 处错误的三份样例，不仅找出来，还要说明「你怎么发现它错了」。零基础学员最危险的不是不会生成，是生成什么都信。</span></div>
+      <div class="kv" data-page-node-id="bDnyGgKGAYmezHytW8JMnB"><i data-page-node-id="deWEyavKkgvlUxgsdITg8S">③ 约束段是差距</i><span data-page-node-id="DiQT2RnmUsiDWBWMmCwTwJ">K7 现场演示「去掉约束段重跑一次」，用产出的明显劣化来证明，比讲十遍理论管用。</span></div>
+    </div>
+    <div class="card" data-page-node-id="n7JUY1nElRvM6x07Os89fA">
+      <h2 class="sec" data-page-node-id="Sp0tQHTxiqRPIM3XdbnSTp">零基础学情与对策</h2>
+      <table data-page-node-id="HSepEHW4EPF4HKx5IiUmcY">
+        <tr data-page-node-id="pG0OevlsB9wrnlNeYDB50C"><th data-page-node-id="AGzbWsbopBguJ9oXT3alt2">典型顾虑 / 现象</th><th data-page-node-id="LK2q075Dwm3EJAtg0fdgn2">教学对策</th></tr>
+        <tr data-page-node-id="b59LCt0YgRyFyb1NoxMp7C"><td data-page-node-id="VNhDFA7Atc0Bc2O8EemhAt">不敢用，怕数据外泄</td><td data-page-node-id="RuwjUsBIkfkLu4hRPgv6Dt">K1 讲透三条红线 + 现场演示目录拦截；全程脱敏素材</td></tr>
+        <tr data-page-node-id="BR9CNhpBruatKmRca6ENgu"><td data-page-node-id="GpiWY574cCVH5B6HzlQvuI">对「工作空间 / 目录」无感</td><td data-page-node-id="nYAz59kj201DWcOpdRXuw3">K2 故意选错目录演一次失败，看过一次才记得住</td></tr>
+        <tr data-page-node-id="ImVeuZahf31Ux6zXDDgMGK"><td data-page-node-id="iXZmiSNEdYk1NRGyXVLWMP">期待「一次就对」</td><td data-page-node-id="IESC8GWWb7WGw6ilUpjDRS">K3 定调：AI 给 70 分初稿，迭代能力决定 90 还是 50 分</td></tr>
+        <tr data-page-node-id="sWo2CZ0zEMI5t4J8jewrX9"><td data-page-node-id="AizllZfIIFGw5ScoPNqWQy">指令模糊，产出发散</td><td data-page-node-id="gCFtzBtRJFCRpdIyKAzcDc">K7 五段式 + 约束段劣化演示 + 分组改错 5 条</td></tr>
+        <tr data-page-node-id="PmJT7Vf1DCpc7YdgAJL8bS"><td data-page-node-id="mdgTeucxckAW2epsrFhVI7">进度两极分化</td><td data-page-node-id="cK9WBLTCcJV51LXvyJhV8B">进阶挑战卡 + 邻座小老师结对 + 卡壳即叫停统一补讲</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" data-page-node-id="nl06Uqh8GeKEsPJTrS767p">
+    <h2 class="sec" data-page-node-id="fzJSBVO2RHatqeTNoWuuOm">12 课时速览</h2>
+    <table data-page-node-id="qxu1OBf6tefvNuTyRek9yh">
+      <tr data-page-node-id="A5Z1OxxcIktLf87b2BuxAm"><th data-page-node-id="MZ7kqSjeVwqOVZtHDNoYhA">课时</th><th data-page-node-id="Psk05so6FueK4FtiNE0TZF">主题</th><th data-page-node-id="ROIN4KQhWzkCnXTK9ptJhE">周次</th><th data-page-node-id="alOc3U8CpGvGzbH9nANrhL">时长</th><th data-page-node-id="vV4SFQ8RQeDfA2k4WObpQB">核心产出</th></tr>
+      <tr data-page-node-id="WaFJaFdhQT5EjPfAK3R7rl"><td data-page-node-id="1snEB4bMVW16ThUFa1f3Hc">K1</td><td data-page-node-id="QEVezH81sZzJT1yYrrEBn1">认识 WorkBuddy：从「问 AI」到「派活给 AI」</td><td data-page-node-id="ws9CwpSarIpnlBt21mXkGy">W1</td><td data-page-node-id="snZdDOcxbrPiMejKTL7d0E">45′</td><td data-page-node-id="3chde3ISFmdbN9uBQdHg0s">个人场景清单（≥10 条）</td></tr>
+      <tr data-page-node-id="y4AauIDPfhgVvWABzuKlyP"><td data-page-node-id="qzBqYmmDzNCA5NzQppMDgR">K2</td><td data-page-node-id="FDQfHVnb0h1noDy0D7y7zw">界面、工作空间与第一个任务</td><td data-page-node-id="PQ2dbaoolhZhSDFhOImpAb">W1</td><td data-page-node-id="rruaZeaDpVuUCvMCww4doH">45′</td><td data-page-node-id="CYBjgR1Ltqa3nBGwsgvCzu">第一份 AI 月度简报</td></tr>
+      <tr data-page-node-id="cq8kBEDDZ2fn2rygyHIsiM"><td data-page-node-id="IzB2fQsHrBpSI4c6mQMHOW">K3</td><td data-page-node-id="zZjhzMjBPN8aIrkV353lq0">追问迭代与结果验收</td><td data-page-node-id="TlMc7UdiGr6sviFQWiPFMB">W1</td><td data-page-node-id="2AE5hlYy0psxfjUYnSxGJ3">45′</td><td data-page-node-id="snkIVZrGjxdnrmQCLbEAlB">三轮迭代后的终稿 + PDF</td></tr>
+      <tr data-page-node-id="jvOjaTiT6Gwm3gQnp3dkiH"><td data-page-node-id="S2WuMeyjmN5HMQw9VbpUDz">K4</td><td data-page-node-id="7nJgMlrQrjRL5F5EFqTvl1">文档类任务：报告 / 纪要 / 方案</td><td data-page-node-id="8ZaahxgSDJ8ZfNHgDn33pu">W2</td><td data-page-node-id="J6VgbVuWUnMvhqki46gAIT">45′</td><td data-page-node-id="yila5Y1uQeHb0zSTiLmjxu">可执行会议纪要（待办三要素）</td></tr>
+      <tr data-page-node-id="QyKS5cBs1o1WKrZilDqICB"><td data-page-node-id="CZriXBrEWFCw73rDlIS5uC">K5</td><td data-page-node-id="PF4A7qrGQT3FUQ2art3hSu">表格与数据分析</td><td data-page-node-id="Xyi4F8nzODpSPAZx74wPQm">W2</td><td data-page-node-id="tg7hunXqCkGvSfvNi6gYpf">45′</td><td data-page-node-id="7gBKZq3iBf4sX9dNuSVwqy">脏数据清洗 + 带图表 Excel</td></tr>
+      <tr data-page-node-id="Xlm72LsS5CH9aFB8ccZF68"><td data-page-node-id="bHSXWj9dKo7GPiDVv5enAa">K6</td><td data-page-node-id="BjaPYUi4aICmOsblw4xTaG">PPT 与成套汇报材料</td><td data-page-node-id="E6i9kSnVOLW7UPo0y0ohKe">W2</td><td data-page-node-id="f9YU9dJtHwqqDbQpdJGlQU">45′</td><td data-page-node-id="kolZEnNuEtPBtx6XCg8jK7">数据+报告+PPT 三件套</td></tr>
+      <tr data-page-node-id="ckjukhHMafFUzk5EuT4Q0C"><td data-page-node-id="yHAJw6Q4ZYKysNd8Avosx8">K7</td><td data-page-node-id="KUqC16FOig6Rq9nYLp7LQx">指令五段式与提示词改错</td><td data-page-node-id="PeFhhlRb2TYI2Gh3dBO1Wd">W3</td><td data-page-node-id="4838ianZu9Ig9XdRH0PVDT">45′</td><td data-page-node-id="WaSYQQeQ3KjBSxL5e8wYbt">5 条劣质指令改写 + 3 条个人模板</td></tr>
+      <tr data-page-node-id="pCxw6AcDRHYkURa0SJdFZw"><td data-page-node-id="5Fn3QmGb4pFiTrqKKyWasT">K8</td><td data-page-node-id="1Ilh2zB6Z2ndFaD1MHG00g">批量文件处理与工作空间管理</td><td data-page-node-id="NGYrPI5HdAQWZEJmVe1JnO">W3</td><td data-page-node-id="3supSajBOhDADiJ2AiUnDP">45′</td><td data-page-node-id="frMPPM4u0URhejgmw83plF">60 文件零丢失整理</td></tr>
+      <tr data-page-node-id="vj3AAylSu2mywxLHzigyUC"><td data-page-node-id="HNwgQlqWQr2wmkzzXiN22u">K9</td><td data-page-node-id="xtENECs4Bz8IaCBZfF93z3">Skills 与专家：调用专业能力</td><td data-page-node-id="LjKEvAIm3FX9B0N4wlHhzl">W3</td><td data-page-node-id="EyUirrEugMiDR3H9V4DYwq">45′</td><td data-page-node-id="wyEad8wsl3p9Dn8qtPC2mN">专业交付物 + 3 条模板沉淀</td></tr>
+      <tr data-page-node-id="VdaoHQ8Znvi2bP7fQ42n4I"><td data-page-node-id="dXE9bz2HuzdFc7Ipo4taLz">K10</td><td data-page-node-id="Zal0qXubppNTSIJf5IUPBL">自动化任务与连接器</td><td data-page-node-id="OGkfLXb1d7auGCEXXEIASd">W4</td><td data-page-node-id="fvJukChOmXOfrXjdCYBLcu">45′</td><td data-page-node-id="0dzBaS3IrjlFMA6SNScMPK">已启用的周期性自动化任务</td></tr>
+      <tr data-page-node-id="Dn5WkBeKMlPSekESeJmMyX"><td data-page-node-id="c3zSGWivaHjR1CnJpE6WVO">K11</td><td data-page-node-id="2L6Xq8Z8wQ4tvM70KQ4nrL">结果验收、纠偏与合规红线</td><td data-page-node-id="eXKSHGCDFzZCg3Kjgfke8H">W4</td><td data-page-node-id="7SMWyDFPpS0AjCfFDoeyrG">45′</td><td data-page-node-id="wkEPZ8fuBnVcFTonVJaGfX">找出全部预埋错误 + 个人自检清单</td></tr>
+      <tr data-page-node-id="CnxFjECTukl6ibmHF75yzl"><td data-page-node-id="seD6184eobeERMDUXEbZBM">K12</td><td data-page-node-id="YOSdcAg1f0wh4ouVbOAThC">结业综合实操考核与复盘</td><td data-page-node-id="9411EbD6CBEHrD05omXHkI">W4</td><td data-page-node-id="DifyDpTGscwVGIkKWmAYK5">110′</td><td data-page-node-id="22UFp6uDm3VnaQtqbkwHaE">考核交付物 + 30 天应用计划</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============ TAB 1 课时大纲 ============ -->
+<section class="tab" id="t1" data-page-node-id="VwdNdFBAC4v7JyXQngGTZV">
+  <div class="filterbar" data-page-node-id="NmagdxDOWmDkcuBpeO9Rw5">
+    <button class="on" data-w="all" data-page-node-id="8DEuOEGG74EMSkqlvw3FGj">全部</button>
+    <button data-w="W1" data-page-node-id="pfE7ZnIhVdzaOSxh0TjzI2">第 1 周 · 敢用</button>
+    <button data-w="W2" data-page-node-id="0TimaBAQicbYjsp8MLg4s2">第 2 周 · 常用</button>
+    <button data-w="W3" data-page-node-id="I6UWpTGVFYFSOhKJ2CC703">第 3 周 · 用好</button>
+    <button data-w="W4" data-page-node-id="Xu5S1FAa6zq8MMRtxpETmr">第 4 周 · 离不开</button>
+    <button id="expandAll" style="margin-left:auto" data-page-node-id="zOsdhxHZXlkBmhTWndXsrB">全部展开 / 收起</button>
+  </div>
+  <div id="lessons" data-page-node-id="iXydwFPuJMjk1U3ggICGde"></div>
+</section>
+
+<!-- ============ TAB 2 任务卡 ============ -->
+<section class="tab" id="t2" data-page-node-id="GqDbJxZNcSaf47tuoaQ4Du">
+  <div class="card" style="padding:14px 18px" data-page-node-id="c3HBYMuehj2ld31jmAGkvK">
+    <b style="color:var(--navy)" data-page-node-id="mYGCBH3yD4lgBjyXxPULp8">任务卡五段式：</b>① 场景背景 · ② 初始素材 · ③ 任务要求 · ④ 验收标准 · ⑤ 参考步骤与报错自查。
+    <span class="muted" data-page-node-id="bexYj2zJcYS3YTpmGt9RBa">打印：①-④ 印正面、⑤ 印背面；卡壳满 5 分钟方可翻背面。难度：<span class="pill ok" data-page-node-id="cB46j9PoZiH27WtQwEi9X6">★ 入门跟练</span> <span class="pill blue" data-page-node-id="JkgZGBrGw0ZibJkFFglBAH">★★ 进阶独立练</span> <span class="pill warn" data-page-node-id="E2EBWnpZJKdm9qbsS4PQQ1">★★★ 综合考核级</span>。验收结果计入过程性考核 15%。</span>
+  </div>
+  <div class="filterbar" data-page-node-id="mAKL7Br6luXqBZVnrwUzCM">
+    <button class="on" data-d="all" data-page-node-id="aJKvcMDuTJgAZmeaFJewar">全部（12）</button>
+    <button data-d="★" data-page-node-id="UAFfSdI4NKR0udlhTkD1jJ">★ 入门</button>
+    <button data-d="★★" data-page-node-id="dbhtFVUbz7G0ZARBaLznKz">★★ 进阶</button>
+    <button data-d="★★★" data-page-node-id="EVaRphTcBxHRbTkjkKtBCK">★★★ 综合</button>
+  </div>
+  <div id="cards" data-page-node-id="qRByodMYsSY7ZLjLas8ASN"></div>
+</section>
+
+<!-- ============ TAB 3 题库与考核 ============ -->
+<section class="tab" id="t3" data-page-node-id="NYxTEaujZWE8w1EFCrdmTL">
+  <div class="card" data-page-node-id="R5AErC6ShFFy4gSiUBBfqA">
+    <h2 class="sec" data-page-node-id="TZiWJ3SwjabUWvKEhII4y9">题库构成与组卷规则</h2>
+    <div class="kv" data-page-node-id="aetSrJ7tx8aDoFlGJLG6XM"><i data-page-node-id="78pnEFhaTX2UKf04Zwpizh">题库 30 题</i><span data-page-node-id="9N4A3W2afAfVmb78XiCa1U">T1 概念判断 10 ｜ T2 情景选择 8 ｜ <b data-page-node-id="F6A3aGMazV3awAUzpiKS5J">T3 提示词改错 5（核心题型）</b> ｜ T4 故障排查 7</span></div>
+    <div class="kv" data-page-node-id="hHFAQqDBB7UKkuaCZ5MrQY"><i data-page-node-id="i9GUrKnnJAZtHIiWHywgTF">结业测验组卷</i><span data-page-node-id="PSweNv4ClCif5tFWL65qo7">T1 抽 5 + T2 抽 4 + T3 抽 2 + T4 抽 3 = 14 题，限时 30 分钟</span></div>
+    <div class="kv" data-page-node-id="hVWZGuwmp8m47imieShnnb"><i data-page-node-id="hD2aNmYqUVFG2GuO0XJULX">合格标准</i><span data-page-node-id="QpSN64nDcEG2eW1YynlZGz">正确率 ≥75%；T3 占比不低于 30%</span></div>
+  </div>
+
+  <div class="card" data-page-node-id="EGVSeo6F1COx1I1iUi2GkD">
+    <h2 class="sec" data-page-node-id="ZUUcwqySSsQ2C7vbNMEo17">T1 · 概念判断（10 题）</h2>
+    <div id="q1" data-page-node-id="2hRV9KGDIrM4VkxEEMjUhL"></div>
+  </div>
+  <div class="card" data-page-node-id="5d4jGE9BTmiB1AmVaOTF73">
+    <h2 class="sec" data-page-node-id="MlYBtxTdRazdKZR050jarU">T2 · 情景选择（8 题）</h2>
+    <div id="q2" data-page-node-id="RabtmvwC1cVVzFtn696jfe"></div>
+  </div>
+  <div class="card" data-page-node-id="owq4iX9VvRnXZcAVuRO06Z">
+    <h2 class="sec" data-page-node-id="sk5P6vcyFmMD5TRXBWvHgE">T3 · 提示词改错（5 题 · 核心题型）</h2>
+    <p class="muted" style="margin-bottom:10px" data-page-node-id="blyqyzYkpSTzy1FaNQ0AKW">直接对应课程核心能力：把模糊需求转化为可执行指令。评分：五段齐全 2 分 + 约束具体可判定 1 分 + 防编造/安全要求 1 分。</p>
+    <div id="q3" data-page-node-id="6xnYXVkbCsGXYtEDzLWA6p"></div>
+  </div>
+  <div class="card" data-page-node-id="Uh3hlzx1xnChaF2hAwdWvc">
+    <h2 class="sec" data-page-node-id="j4V5wdG5qW6woGdCgZvL2C">T4 · 故障排查（7 题）</h2>
+    <div id="q4" data-page-node-id="urOAWReG84ufhBYrVgY1d3"></div>
+  </div>
+
+  <div class="card" data-page-node-id="JQUTorA1ZGhKwGzeSaVibD">
+    <h2 class="sec" data-page-node-id="f9N0qsNDAO5FV9YMdKTiYt">结业综合实操考核 · 题组（现场抽取 A/B/C 之一）</h2>
+    <p class="muted" style="margin-bottom:10px" data-page-node-id="A1Or8AF0PUhVXKhyilJ4Zl">90 分钟独立完成；可携带学员手册、一页纸速查卡、个人自检清单；禁止助教提示与同伴交流；提交全部交付文件 + 200 字过程说明。</p>
+    <div id="exams" data-page-node-id="pw3UHyuKije864iCgJAtEB"></div>
+  </div>
+
+  <div class="card" data-page-node-id="zh7VijBoADbCa9SCq5F6NV">
+    <h2 class="sec" data-page-node-id="IkUmTGRJ3EELlReRlJ9ttF">Rubric 评分量表（满分 100 · 双讲师独立评分取平均）</h2>
+    <div class="rub" id="rubric" data-page-node-id="g4YfN2UhaGnr1ETpXDeoFE"></div>
+    <p class="muted" style="margin-top:10px" data-page-node-id="zBXt6K9dO9TXaTDCnPATDs">合格线 70 分，且「效率与合规」维度不得为零分；85 分及以上为优秀。分差 &gt;15 分由第三人仲裁。</p>
+  </div>
+</section>
+
+<!-- ============ TAB 4 素材与环境 ============ -->
+<section class="tab" id="t4" data-page-node-id="CrdcAZ427Fmcjtz74a7hLI">
+  <div class="card" data-page-node-id="uGJfqELYDcpRko8j5g4lmT">
+    <h2 class="sec" data-page-node-id="PicSWl6yliPgRjbfINqWVS">脱敏素材 D01-D10（原则：真实结构、虚构主体）</h2>
+    <table id="mats" data-page-node-id="s28MmlrFkFBHRq6CiQ0xLB"></table>
+    <p class="muted" style="margin-top:10px" data-page-node-id="ZWi73kTRAoIKjaDsoYnsG1">胜负手素材：<b data-page-node-id="5C9STn9jR06nbkFh9Xtwdr">D01 脏数据</b>（坑要埋得真实但不至于无法处理，金额列务必设为文本型）与 <b data-page-node-id="aCLtp2vWOq6caoAqTW73El">D04 混乱文件夹</b>（务必记录原始清单与总数，用于零丢失核对）。</p>
+  </div>
+
+  <div class="grid2" data-page-node-id="eH8wMpxctpyO9uCQNIfcMF">
+    <div class="card" data-page-node-id="qV9ouv5GkrFqqkWo8iwRV0">
+      <h2 class="sec" data-page-node-id="CsObZnbJwoiwEv6DQNEbty">学员课前环境检查表（12 项 · 课前 1 天截图回传）</h2>
+      <div class="check-list" id="envchk" data-page-node-id="AxhJkmfLDXGKLvxcpHU3wb"></div>
+    </div>
+    <div class="card" data-page-node-id="ZmRBQmfk8okyCqXf8knFAq">
+      <h2 class="sec" data-page-node-id="YM0ecoyfa5lqciL4gbUaHc">讲师备课时间轴</h2>
+      <div class="tl" id="timeline" data-page-node-id="bVZk1VIFSLneC0n4jlpBWy"></div>
+    </div>
+  </div>
+
+  <div class="card" data-page-node-id="TFuyAKF1sGs0uH5V2jBxYH">
+    <h2 class="sec" data-page-node-id="rSjIRT1I7H2v7CV2whnL6b">实施风险与应急预案（8 条）</h2>
+    <table id="risks" data-page-node-id="BhbCrBO94FFqPvGTF60atS"></table>
+  </div>
+
+  <div class="card" data-page-node-id="BB8fJqSPHXzNOZjjMuMO9M">
+    <h2 class="sec" data-page-node-id="6ZUYFw1Z6NxgZnnKEOgH6B">课件制作统一规范</h2>
+    <table data-page-node-id="nGlDIKuiPiYfGlKq2xVlRA">
+      <tr data-page-node-id="rQFFD028IgVpcKSzvSagXZ"><th style="width:120px" data-page-node-id="9PwcNqZF777woyM0Te8Btw">页面尺寸</th><td data-page-node-id="hgZhLDxpuQoTEg5LSpCF3x">16:9，1920×1080</td></tr>
+      <tr data-page-node-id="H5eY7ORPzOjxLTtwCsSAeX"><th data-page-node-id="yE5vDDgpX7PmDptRb15Obt">配色</th><td data-page-node-id="SNohIUFZ30sJ8uPOFnY4P1">主色 #1F3B63（深蓝），辅色 #1F4E79，强调色仅用于单页唯一重点</td></tr>
+      <tr data-page-node-id="lmn5qCCCAoRllPE710EH2V"><th data-page-node-id="VNnGb4bknHAywtmk1DkOBR">字体</th><td data-page-node-id="688ZMqwahoC1LSEHoasTUH">标题黑体，正文微软雅黑；正文不小于 24pt</td></tr>
+      <tr data-page-node-id="VyCMua5B3TNgWycT7kT4xD"><th data-page-node-id="JcHAjR7TUH8EHfDt4W0DbA">信息密度</th><td data-page-node-id="dXM876rpNP3hAyrtzkorfi">每页要点 ≤5 条，每条 ≤20 字；禁用整段文字</td></tr>
+      <tr data-page-node-id="4xiyukCgiNzCDbfHn76Gwj"><th data-page-node-id="a6tt6FiOOqOEdgjr67chCO">配图</th><td data-page-node-id="gykn6s0NVPIFCXdgw4QtpP">优先真实界面截图，禁用与本产品无关的示意配图</td></tr>
+      <tr data-page-node-id="vs6CFl8bVIHwun1emf6G6m"><th data-page-node-id="AMBxtI6fAw6XtlYq1ZK4m7">标注</th><td data-page-node-id="6PgfThpWeDHb18zRyC4n2O">演示页右下角标「演示页」，实操页标「实操 XX 分钟」</td></tr>
+      <tr data-page-node-id="rB5yKZ4LXdYNhFjPcbSGpJ"><th data-page-node-id="0NWzT3aYauWHTLm7t8NnoG">版本控制</th><td data-page-node-id="aZiM6qiXSClDlQRJayZT9y">每周课后更新版本号并在末页记录修订说明</td></tr>
+    </table>
+  </div>
+</section>
+
+</main>
+<footer data-page-node-id="Ioq8V8LGV5J9yq8Bi2VP6j">WorkBuddy 零基础实战训练营 · 课程面板 V1.0 · 与 01-05 号交付文件内容同源</footer>
+
+<script>
+/* ==================== DATA ==================== */
+const LESSONS = [
+{k:"K1",w:"W1",t:"认识 WorkBuddy：从「问 AI」到「派活给 AI」",min:45,
+ goals:["建立正确心智模型：AI 不只是聊天，是能干活的智能体","说出四类可交给 AI 的工作，并列出本人 ≥10 条应用场景","记住三条安全红线"],
+ mats:["无（无需素材）","痛点投票题（问卷星/举手）"],tools:"投屏、白板、场景清单模板",
+ pages:[
+ ["开场：今天你花时间最多的是什么","● 每人说出一件本周最耗时的重复性工作\n● 现场词频统计，Top3 上白板\n● 课程承诺：四周后，这 Top3 至少一件交给 AI","不急着介绍产品。先让全场说出自己的痛点，把 Top3 写在白板上——这三条就是本课程要兑现的承诺，也是第四周考核的验收对象。",8,"全场轮流发言，词频上白板"],
+ ["一个对比：同样一句「帮我分析销售数据」","● 传统 AI 对话：给你一段建议和方法\n● WorkBuddy：直接给你一份带图表的文件\n● 关键差别：给建议 vs 给结果","现场投屏做同一个需求：左边是普通 AI 对话框，右边是 WorkBuddy。不解释原理，让学员自己看出差别——一个说「你可以这样做」，一个直接把文件做出来了。",6,"让学员用自己的话概括差别"],
+ ["它能干的四类活","● 文档生成：报告、纪要、方案\n● 数据分析：上传表格，出图表和结论\n● PPT 与成套材料\n● 批量处理：整理、重命名、格式转换\n● 还有：深度调研、邮件与周报","逐条过一遍，每条配一句场景举例。控制在 5 分钟内，不要展开细节——细节留给后面课时。",5,"每条请一位学员补充一个自己的场景"],
+ ["它不能干什么：三条红线","● 涉密与个人敏感信息不上外部模型\n● 对外发布材料必须人工终审\n● 自动化只做登录态复用与模拟填表，不破解任何签名或协议\n● 补充：只能访问你主动授权的文件夹；敏感目录自动拦截；高危操作需二次确认","这一页必须讲透。明确告知安全边界，零基础学员最大的障碍不是不会用，是不敢用。讲完做一次现场演示：触发一次目录拦截提示，让学员看到系统真的会拦。",8,"现场演示触发一次拦截提示"],
+ ["界面三区速览","● 侧边栏：任务列表、搜索、文件夹分组\n● 对话区：标题栏、消息列表、输入框\n● 结果区：概览、产物、变更、内置浏览器","投屏指认三个区域，只讲名称与作用，不讲操作。让学员在自己的屏幕上同步指认，形成肌肉记忆。",6,"学员在自己电脑同步指认"],
+ ["练习：我的工作里有哪些能交给它","● 在清单模板上写下 ≥10 条本人真实待办\n● 标注：高频/低频；简单/复杂\n● 圈出最适合先试的三条","发场景清单模板，给 8 分钟安静书写。这是本课时最重要的产出，也是后面每次作业的候选池。写完后请 3 位学员分享一条最想解决的。",8,"独立书写 + 3 人分享"],
+ ["小结与预告","● 记住一句：描述目标，不描述步骤\n● 三条红线再念一遍\n● 下节课：带走你的第一份 AI 交付文件\n● 课前准备：按环境检查表完成 12 项自查","收尾时把白板上的 Top3 痛点拍下来，告诉学员第四周会回来对照。发放环境准备手册，强调课前 1 天完成自查并截图回传。",4,"拍照留存痛点清单"]]},
+{k:"K2",w:"W1",t:"界面、工作空间与第一个任务",min:45,
+ goals:["独立完成：选工作空间 → 描述任务 → 补充上下文 → 查看产物 → 下载","理解工作空间决定了 AI 能读哪些文件","当堂产出第一份 AI 生成的交付文件"],
+ mats:["D01 月度销售明细（脏数据版）","学员手册 P2-P5"],tools:"投屏、计时器、任务卡 P01",
+ pages:[
+ ["回顾与今日目标","● 上节：AI 能干四类活 + 三条红线\n● 今日目标：带走第一份 AI 交付文件\n● 三步走：选空间 → 说任务 → 看结果","开宗明义：今天不以听懂为目标，以手上多一个文件为目标。把三步走写在白板上，全程对照。",3,"齐读三步走"],
+ ["第一步：选择工作空间","● 工作空间 = 本次任务能翻看的文件夹\n● 选对了才找得到素材\n● 演示：故意选错目录，AI 找不到文件","一定要演一次失败。选一个不含素材的目录，让 AI 报「找不到文件」，再纠正。零基础学员对目录无感，看过一次失败才记得住。",7,"学员预测会发生什么"],
+ ["第二步：怎么把任务说清楚","● 一句话目标：帮我做什么\n● 四种补充上下文：@ 引用文件 / Ctrl+V 截图 / 拖拽上传 / 文字说明\n● 说清目标、输入、输出格式、约束","四种补充方式逐一演示，各 30 秒。重点演示 @ 引用和拖拽上传，这两种最高频。对比「帮我写个报告」与完整指令的实际产出差异。",8,"四种方式学员各跟练一次"],
+ ["第三步：示范——把销售数据变成月度简报","● 上传 D01 → 描述目标与输出格式\n● 实时展示执行过程（阶段说明、中间步骤）\n● 执行中可随时中断","边说边做，把思考过程说出来：为什么先说输出格式、为什么限定字数。演示中途故意点一次「停止」，告诉学员随时可中断。",10,"观察执行过程，记录疑问"],
+ ["结果区：四个视图怎么用","● 产物：查看与下载交付文件，可分享到云端\n● 变更：交付前检查改了什么\n● 工作空间文件：浏览当前目录内容\n● 浏览器：预览网页类结果","带学员逐一打开四个视图。强调「变更」视图是交付前的最后一道检查，养成习惯从这里开始。",5,"学员同步打开四个视图"],
+ ["实操 P01：生成你的第一份月度简报","● 素材：D01\n● 要求：输出 Word，含同比环比图表，1500 字内\n● 验收：文件已生成并成功下载\n● 时间：20 分钟","发放任务卡 P01，明确最低完成要求：哪怕只生成出来也是成功。倒计时开始后全场巡视，第 3 分钟完成第一轮。",2,"发放任务卡，倒计时开始"],
+ ["实操巡场与作品展示","● 20 分钟独立实操\n● 展示 2 份作品（一份好、一份待改）\n● 共性问题是最佳教学素材","巡场时记录两类典型作品，展示时先肯定后指出一处改进点。绝不允许否定式点评。",8,"同伴围观，记录改进点"],
+ ["小结","● 三步走复述\n● 最常见坑：没选工作空间 / 指令太模糊\n● 下节：第一次交付往往不是终稿，学会迭代","用一句话收尾：今天你多了一个文件，下周你会多一种工作方式。预告下节课的迭代主题，降低对「一次就对」的错误期待。",2,"一句话收获接龙"]]},
+{k:"K3",w:"W1",t:"追问迭代与结果验收",min:45,
+ goals:["掌握「保留 X、修改 Y」的精确迭代话术","理解第一次交付不是终稿，迭代是常态","会用变更视图做交付前检查，并完成三次迭代"],
+ mats:["D01 及上节课产出","学员手册 P6-P8","任务卡 P02"],tools:"投屏、计时器、互评表",
+ pages:[
+ ["开场：为什么第一次总是不满意","● 期望管理：AI 出的是初稿，不是终稿\n● 会改比会问更重要\n● 今天练：三轮迭代","先破除「一次就对」的幻想。用一句话定调：AI 给你 70 分的初稿，你的迭代能力决定它最后是 90 分还是 50 分。",4,"举手：上次结果满意的有几人"],
+ ["追问的正确姿势","● 不要重开任务，在原有对话里继续\n● 公式：保留【X】，只修改【Y】，改成【具体要求】\n● 一次只改一处，改完再提下一处","演示错误做法：另开一个任务重新描述背景（费时且丢失上下文）。再演示正确做法：一句「保留第二章，只把第三章的图表换成柱状图」。",8,"对比两种做法耗时"],
+ ["三种常见迭代类型","● 加内容：再加一个分地区的对比\n● 改格式：表格按销售额降序排列\n● 换输出：把这份报告导出成 PDF\n● 补充追问：再分析一下环比变化原因","三种类型各演示一句，让学员看到迭代指令的句式模板。强调「一次只改一处」，避免全文重生成。",6,"学员现场仿写一句"],
+ ["变更视图：交付前的最后一道关","● 查看 AI 改了哪些文件、改了什么\n● 接受结果前先做一轮检查\n● 发现不对可直接指出具体位置","演示一次变更视图的查看过程。告诉学员：这是你签字的那一笔，看一眼再交付。",4,"学员打开自己的变更视图"],
+ ["产物的下载与分享","● 预览产物后点击分享 → 生成公开链接\n● 可上传到云端网盘、腾讯文档、知识库\n● 对外分享前必须人工终审","演示下载与分享，同时强调：分享链接等于对外发布，终审责任在人。",4,"记录分享的四条去处"],
+ ["实操 P02：三轮迭代完善你的简报","● 第 1 轮：加一张分地区对比图\n● 第 2 轮：表格按销售额降序\n● 第 3 轮：导出 PDF 并下载\n● 时间：25 分钟","三轮必须按顺序做，每轮做完自查。助教重点抓「重新开任务」的学员，及时纠正。",2,"发放任务卡，倒计时开始"],
+ ["同伴互评与小结","● 互评三问：数据对吗？格式对吗？能直接交吗？\n● 展示两份迭代前后对照\n● 验收四问预告","两人一组互换文件，按三问互评。最后预告下节课的验收四问，形成能力闭环。",17,"两人一组互评 3 分钟"]]},
+{k:"K4",w:"W2",t:"文档类任务：报告 / 纪要 / 方案",min:45,
+ goals:["独立完成一份结构化 Word 报告（含封面、目录、正文、表格）","掌握会议纪要的黄金结构：议题—决议—待办","知道文档中哪些部分必须人工把关"],
+ mats:["D02 口语化会议记录","学员手册 P9-P11","任务卡 P03"],tools:"投屏、计时器",
+ pages:[
+ ["开场：办公文档四大类","● 报告：周报、月报、分析报告\n● 纪要：会议纪要、访谈记录\n● 方案：技术方案、实施方案\n● 说明：README、操作手册","快速过一遍分类，重点说明每类的结构差异。让学员把自己常写的文档对号入座。",4,"学员举手归类自己的文档"],
+ ["文档任务的三要素","● 目标：要生成什么文档\n● 材料：基于什么原始内容\n● 格式：Word/Markdown/PDF、字数、结构要求\n● 少一样，产出就发散","对比「帮我写个报告」和「基于这份会议记录生成纪要，含议题/决议/待办三栏，输出 Word，800 字内」的实际差异。",7,"学员找出差指令缺了哪一段"],
+ ["示范：口语化记录 → 规范纪要","● 上传 D02（含闲聊、多人未标注）\n● 指令中明确结构与输出格式\n● 现场生成并展示结果","拿 D02 这种「脏」的原始记录做示范，故意先不写结构要求，让产出显得杂乱；再补一句结构要求重生成，形成强烈的对比冲击。",10,"对比前后两版产出"],
+ ["纪要的黄金结构","● 议题：讨论了什么\n● 决议：定了什么\n● 待办：谁在什么时间前做什么\n● 缺「责任人+截止日」的纪要等于没写","把黄金结构写在白板上。强调待办三要素：事项、责任人、截止日，缺一不可。",5,"学员检查自己公司的纪要缺什么"],
+ ["哪些地方必须人工把关","● 数字、金额、日期必须复核\n● 责任人与截止日必须核实\n● 对外措辞与口径必须终审\n● 结论署名，责任在人","展示一份「AI 写错责任人」的样例做警示。这一页的态度比技能更重要，要讲透。",5,"案例讨论：出了事谁负责"],
+ ["实操 P03：把 D02 变成可执行的会议纪要","● 输出 Word，含议题/决议/待办三栏\n● 待办必须含责任人与截止日\n● 不确定的事项标注【待确认】，不许编造\n● 时间：20 分钟","验收标准里的「不许编造」是重点：要求学员在指令中明确写入「信息缺失处标注【待确认】，不得凭空填充」。这是零基础学员最容易踩的坑。",2,"发放任务卡，倒计时开始"],
+ ["作品点评与小结","● 展示 2 份：一份待办完整，一份缺责任人\n● 小结：三要素 + 人工终审\n● 作业：用真实工作材料做一次文档任务","点评聚焦「待办三要素是否齐全」。作业要求用本人真实材料，形成迁移。",12,"同伴互评待办完整性"]]},
+{k:"K5",w:"W2",t:"表格与数据分析",min:45,
+ goals:["上传数据后先做质量检查再分析","能选择合适的图表类型并让 AI 说明理由","输出带图表的 Excel 并复核关键数据"],
+ mats:["D01 月度销售明细（脏数据版）","学员手册 P12-P14","任务卡 P04"],tools:"投屏、计时器",
+ pages:[
+ ["开场：数据任务的最大陷阱","● 脏数据会让分析结论全盘错误\n● 缺失值、重复行、格式不统一、数字存成了文本\n● 先体检，再分析","用一句话制造紧张感：AI 不会拒绝脏数据，它会很认真地给你一个错误答案。",4,"猜猜这份数据有几个坑"],
+ ["正确流程：先体检再分析","● 第一步：让 AI 报告数据质量问题\n● 第二步：确认处理规则（补零/删除/归一）\n● 第三步：再做统计与图表\n● 第四步：复核关键数字","四步流程写在白板上，全程对照。第一步最重要，现场演示让 AI 输出「数据质量体检报告」。",8,"学员跟说一遍四步"],
+ ["示范：D01 清洗 + 统计","● 上传 D01 → 要求先报告质量问题\n● 展示 AI 发现的缺失值、重复行、日期格式\n● 确认规则后生成统计与图表","完整走一遍。让学员看到 AI 能把「数字存成了文本」这种隐蔽问题找出来，建立信任。",8,"记录 AI 找到了哪几类问题"],
+ ["图表怎么选","● 趋势 → 折线图\n● 对比 → 柱状图\n● 占比 → 饼图/环形图\n● 分布 → 直方图\n● 关键：让 AI 说明为什么选这种图","对同一份数据让 AI 出三种图，让学员投票哪个更合适。强调「让它说明理由」是检验 AI 是否真理解的好办法。",6,"三选一投票并说明理由"],
+ ["从图表到结论","● 不要只出图，要出结论\n● 追问：这个趋势说明了什么？风险在哪？\n● 让 AI 给出三条可执行建议\n● 所有数字必须人工复核","演示追问话术：「基于以上分析，给出三条可执行建议，并说明依据」。同时强调合计数要自己算一遍。",5,"学员现场复核一个合计数"],
+ ["实操 P04：D01 清洗与图表分析","● 先输出数据质量报告\n● 再按区域/月份统计并出图\n● 交付带图表的 Excel\n● 复核合计金额是否与原始数据一致\n● 时间：20 分钟","验收核心是「先体检」和「复核合计」。助教重点检查是否有学员跳过第一步直接分析。",2,"发放任务卡，倒计时开始"],
+ ["点评与小结","● 三类典型错误：跳过体检、图表选错、数字未复核\n● 小结四步流程\n● 作业：本人真实数据一次分析","展示典型错误样例时，用「这份报告交上去会发生什么」引导反思。",12,"找错比赛：谁发现的问题多"]]},
+{k:"K6",w:"W2",t:"PPT 与成套汇报材料",min:45,
+ goals:["把数据与报告组合成成套汇报材料，口径保持一致","能根据受众调整版本（给领导 vs 给客户）","会套用公司模板与品牌色"],
+ mats:["D01、D05 周报述职素材包、D06 PPT 模板与色卡","任务卡 P05"],tools:"投屏、计时器、D06 模板",
+ pages:[
+ ["开场：汇报为什么要成套","● 数据、报告、PPT 口径不一致 = 汇报翻车\n● 成套交付：一份数据贯穿到底\n● 时间节省在串联上","用一个真实翻车情境开场：PPT 里说增长 12%，Excel 里是 8%，领导问哪个对。",4,"有没有人遇到过口径打架"],
+ ["串联三件套的方法","● 第一步：出数据表（定口径）\n● 第二步：基于数据表写报告（不换数据源）\n● 第三步：基于报告做 PPT（不改数字）\n● 全程同一任务内完成，保持上下文","强调「同一任务内串联」——重新开任务最容易导致口径漂移。演示一次完整串联。",8,"学员复述三步顺序"],
+ ["受众决定版本","● 给领导：结论先行、页数少、强调风险与决策点\n● 给客户：价值先行、强调方案与收益\n● 给团队：过程与分工、强调执行细节\n● 同一份材料出两个版本对比","对同一份报告生成两个版本 PPT 做对比展示，让学员看到指令里写清受众带来的差异。",6,"学员判断自己常用的汇报受众"],
+ ["模板与品牌一致性","● 在指令中指定模板与主色值\n● 统一字体与页边距\n● 页数、每页信息密度的约束","演示「套用 D06 模板，主色 #1F3B63，不超过 12 页」的指令写法。课前已统一发放模板，确保一致性。",4,"核对模板是否已到位"],
+ ["实操 P05：成套汇报材料（35 分钟）","● 素材：D01 + D05 + D06\n● 交付三件套：数据统计 Excel、分析报告 Word、汇报 PPT\n● 三份文件数据口径必须一致\n● 附加：再出一个「给客户」版本 PPT（挑战项）","这是目前为止最大的一次实操。明确最低完成要求：三件套齐全即可，挑战项留给提前完成的学员（发进阶挑战卡）。",2,"发放任务卡与进阶挑战卡"],
+ ["展示、互评与小结","● 展示 2 套完整作品\n● 互评三问：口径一致吗？受众匹配吗？能直接讲吗？\n● 本周作业：本人真实岗位任务一次 + 150 字心得","互评聚焦「口径一致性」——抽查三份文件里的同一个数字。布置本周作业，强调必须是真实任务。",21,"交叉抽查数字一致性"]]},
+{k:"K7",w:"W3",t:"指令五段式与提示词改错",min:45,
+ goals:["用五段式结构（角色-目标-输入-输出-约束）改写任意需求","能诊断劣质指令的四种常见病","现场改写 5 条劣质指令"],
+ mats:["劣质指令卡 5 张","学员手册 P18-P20","任务卡 P06"],tools:"投屏、白板、分组",
+ pages:[
+ ["开场：同样的 AI，为什么别人出的更好","● 差距不在 AI，在指令\n● 指令 = 你给 AI 的工作说明书\n● 今天练的是把模糊需求变可执行","现场演示同一需求的两版指令产出对比，不解释，让学员自己判断哪版好、好在哪。",5,"投票：哪版好，好在哪"],
+ ["五段式指令结构","● 角色：你是谁（领域专家/资深分析师）\n● 目标：要什么结果\n● 输入：基于什么材料\n● 输出：什么格式、什么结构\n● 约束：字数、风格、口径、禁止项","把五段式写在白板上，全程保留。每段配一句示例。强调这是本周唯一的「公式」。",8,"齐读五段并举例"],
+ ["约束段才是差距所在","● 演示：去掉约束段重跑一次\n● 差异：篇幅失控、口径不明、风格漂移\n● 好约束三条：可量化、可判定、可检查\n● 例：不确定的数据标注【待确认】，不得凭空填充","这一页是本课时核心。现场去掉约束段重跑，用产出的明显劣化来证明约束的价值。",8,"观察去掉约束后的劣化"],
+ ["劣质指令的四种病","● 目标模糊：帮我弄一下\n● 缺输入：没给材料就让它分析\n● 无输出格式：不知道要 Word 还是 PPT\n● 无约束边界：篇幅、口径、禁止项全空","四病逐条讲，每条配一个真实学员指令做例子（课前从作业中收集，注意匿名处理）。",6,"对号入座：我中了几条"],
+ ["改错训练规则","● 4 人一组，发 5 张劣质指令卡\n● 每组改写 5 条，写成五段式\n● 时间 20 分钟，结束后逐组展示\n● 评分看：五段齐全 + 约束具体可执行","说明规则和评分口径。强调「约束具体可执行」是拉开差距的地方，不是写满了就得分。",2,"分组，发放指令卡"],
+ ["分组改写与逐组点评","● 20 分钟分组改写\n● 每组展示 1 条最佳改写\n● 讲师点评：这段约束能不能判定？\n● 沉淀：每人挑 3 条存为个人指令模板","点评时反复追问「这条约束怎么判定达标」，训练可验证的表述习惯。课末每人必须带走 3 条个人模板。",16,"组间互评 + 讲师点评"]]},
+{k:"K8",w:"W3",t:"批量文件处理与工作空间管理",min:45,
+ goals:["一次性批量整理 ≥50 个文件（重命名/归类/格式转换）","掌握「先列计划再执行」的安全流程","养成操作前备份的习惯"],
+ mats:["D04 混乱文件夹样本（60 文件）","任务卡 P07"],tools:"投屏、计时器、备份盘",
+ pages:[
+ ["开场：最容易被忽略的超能力","● 人工整理 60 个文件约需 40 分钟\n● 用 AI 约需 3 分钟\n● 今天现场计时对比","开场就抛出计时挑战，制造期待。让学员先举手估计人工需要多久，写在白板上。",4,"举手估算人工耗时"],
+ ["目录即上下文","● 一个任务对应一个工作目录\n● 目录结构就是给 AI 的说明书\n● 避免跨目录误操作\n● 任务列表按文件夹分组便于回溯","讲清工作空间的组织方法。展示一个结构良好的目录 vs 一个混乱目录，说明为什么目录本身就是上下文。",6,"学员检查自己的目录结构"],
+ ["安全三步：备份 → 计划 → 执行","● 备份：先把原始文件复制一份\n● 计划：让 AI 先列出整理方案给你确认\n● 执行：确认后再让它动手\n● 变更视图可回溯","这三步必须形成条件反射。现场演示「先列计划」的指令写法，并强调变更视图是后悔药。",7,"齐读三步"],
+ ["示范：60 个文件现场整理","● 上传/指向 D04\n● 先让 AI 列计划：按类型归类 + 按日期重命名\n● 人工确认计划\n● 执行并展示结果","完整演示一遍，计时。展示结果时对照原始目录，确认零丢失。",8,"计时，记录耗时"],
+ ["实操 P07：整理你的混乱文件夹","● 素材：D04（60 个文件）\n● 要求：按类型归类到子目录 + 统一命名规则\n● 必须先让 AI 列计划并确认\n● 验收：零丢失、规则一致、原始文件完整\n● 时间：30 分钟","验收标准中「零丢失」是硬指标，完成后要求学员统计文件总数是否与原始一致。",2,"发放任务卡，倒计时开始"],
+ ["计时公布与点评","● 公布 AI 耗时 vs 开场估算的人工耗时\n● 展示 2 份结果，检查零丢失\n● 常见报错：路径含中文/权限不足/文件被占用","用开场白板上的估算数字做对比，形成强烈成果感。报错三条要现场讲清处置方法。",18,"报数：谁的文件数对上了"]]},
+{k:"K9",w:"W3",t:"Skills 与专家：调用专业能力",min:45,
+ goals:["理解 Skill 与专家的价值：让 AI 按专业流程干活","能调用合适的 Skill/专家完成一项专业任务","沉淀 3 条个人可复用指令模板"],
+ mats:["D08 SOP 文档 5 份、D09 票据扫描件 20 张","任务卡 P08"],tools:"投屏、计时器",
+ pages:[
+ ["开场：通用 AI 与有流程的 AI","● 通用 AI：什么都懂一点，流程不稳定\n● 调用 Skill：按专业流程一步步来\n● 差别像「随便找个同事」和「找对口的老师傅」","用类比讲清概念，不要讲技术定义。零基础学员只需理解「调用后 AI 会更专业、更稳定」。",4,"类比理解"],
+ ["Skill 是什么","● 封装好的一套专业工作方法\n● 用 @ 调用\n● 调用后 AI 按这套流程执行\n● 例：文档排版、数据分析、流程编写","现场 @ 调用一个 Skill，展示调用前后的产出差异。",8,"观察调用前后的差异"],
+ ["专家是什么","● 让 AI 以某个专业角色视角分析问题\n● 适合需要专业判断的场景\n● 例：让财务专家审一份成本分析","演示同一个问题，普通模式问一次，专家模式问一次，对比分析深度的差异。",6,"投票：哪版分析更有深度"],
+ ["调用演示：前后对比","● 场景：基于 D08 五份 SOP 回答一个流程问题\n● 调用前：泛泛而谈\n● 调用后：引用具体条款、给出步骤\n● 关键：调用后仍要把需求说清楚","强调一个易错点：调用 Skill 不等于不用描述需求，仍要按五段式说清目标与约束。",8,"学员复述调用要点"],
+ ["实操 P08：用 Skill/专家完成一项专业任务","● 素材：D08 或 D09\n● 二选一：基于 SOP 做流程问答 / 批量识别票据并汇总成表\n● 输出：可直接使用的专业交付物\n● 时间：30 分钟","两个任务二选一，照顾不同岗位。票据识别任务对财务岗更有吸引力，SOP 问答对管理岗更实用。",2,"发放任务卡，倒计时开始"],
+ ["沉淀个人指令模板与小结","● 每人沉淀 3 条个人可复用指令模板\n● 模板格式：场景 + 五段式指令 + 备注\n● 本周作业：整理本人一个真实混乱文件夹（≥30 个文件）","课末 5 分钟必须完成 3 条模板沉淀，这是本周最重要的产出。要求模板写清场景，方便日后检索复用。",17,"相邻学员互读模板"]]},
+{k:"K10",w:"W4",t:"自动化任务与连接器",min:45,
+ goals:["创建一个定时/周期性自动化任务并验证运行","理解自动化指令必须自包含","了解连接器的用途与授权边界"],
+ mats:["D01（作为自动化数据源）","任务卡 P09"],tools:"投屏、计时器、连接器授权",
+ pages:[
+ ["开场：从「人盯着」到「自己跑」","● 前面三周：你发起，AI 干\n● 这一周：到点它自己干\n● 典型场景：每日计划、每周报告、定期巡检","回顾三周的路径，引出自动化的价值：把重复的「发起」动作也省掉。",4,"学员说出三个可自动化的事"],
+ ["一次性任务 vs 周期性任务","● 一次性：指定时间执行一次（如某日 15:00 提醒）\n● 周期性：按天/周/月重复（如每周五 17:00 出周报）\n● 可设置生效区间","两种类型各演示一次配置过程，讲清时间设置与时区的常见坑。",7,"学员说出自己的周期需求"],
+ ["自动化指令必须自包含（失败演示）","● 失败案例：指令写「帮我写周报」\n● 跑出来：内容发散、口径不明、每次都不一样\n● 正确写法：写清公司名、数据路径、指标定义、输出格式、发送对象\n● 原则：假设它完全不知道前因后果","这一页是本课时核心。先展示一次失败运行，让学员看到后果，再逐项补全指令重跑。",10,"找出失败指令缺了哪几项"],
+ ["连接器：让 AI 连上你的系统","● 企业微信、钉钉、腾讯文档、邮箱等\n● 授权后 AI 才能读写对应系统\n● 授权边界：只授权必要范围\n● 未授权会导致任务失败","演示一次连接器配置，并演示「读取腾讯文档 → 分析 → 回写结果」的完整链路。",7,"检查自己的连接器授权状态"],
+ ["实操 P09：配置一个定时自动化任务","● 任务示例：每周五 17:00 生成本周工作总结（数据来自 D01 所在目录，输出 Word）\n● 指令必须自包含\n● 验收：任务已启用且首次运行成功\n● 时间：25 分钟","要求指令里写清数据来源路径、输出格式、篇幅、结构。验收必须看到「已启用」状态和一次成功运行记录。",2,"发放任务卡，倒计时开始"],
+ ["验证、报错与小结","● 常见报错：时间设置错误、路径不存在、连接器未授权、指令不自包含\n● 处置四步：看运行记录 → 查路径 → 查授权 → 补全指令\n● 本周作业：沉淀 3 条个人指令模板","逐条讲报错处置，给出可执行的排查顺序。小结时预告下节课是「验收与合规」，为结业考核做铺垫。",15,"学员自查任务运行状态"]]},
+{k:"K11",w:"W4",t:"结果验收、纠偏与合规红线",min:45,
+ goals:["能使用验收四问对任意交付物做质量检查","掌握精确纠偏的话术","能判断哪些工作不能交给 AI，并制作个人自检清单"],
+ mats:["三份「有错样例」（数据错/口径错/编造内容）","合规情景判断题 5 道"],tools:"投屏、白板、自检清单模板",
+ pages:[
+ ["开场：AI 会一本正经地错","● 展示一份「看起来完美但有错」的报告\n● 全场找错，公布预埋的错误数量\n● 结论：验收能力比生成能力更值钱","用找错游戏开场，制造冲击。预埋 5 处错误（合计数、同比口径、编造的责任人、过期数据、格式缺失）。",8,"找错比赛：谁找到的多"],
+ ["验收四问","● 一问：数据来源对不对？\n● 二问：口径一致吗？\n● 三问：结论站得住吗？\n● 四问：格式符合要求吗？\n● 再加一问：有没有编造的内容？","把四问写在白板上，每问配一个真实翻车案例。强调第五问「有没有编造」是零基础学员最容易忽略的。",8,"每问配一个案例"],
+ ["演练：三份有错样例","● 样例一：合计金额算错\n● 样例二：同比口径前后不一致\n● 样例三：责任人信息被编造\n● 三人一组，15 分钟找出全部错误并说明依据","分组演练，要求不仅指出错误，还要说明「你怎么发现它错了」，训练方法论而非直觉。",15,"分组找错并说明依据"],
+ ["精确纠偏的话术","● 公式：指出具体位置 + 说明正确做法 + 限定重生成范围\n● 例：报告第 3 页的合计金额应为 128.6 万，请只重新计算该表，其余内容保持不变\n● 避免：说得不对，重写","对比「说得不对，重写」与精确纠偏的实际效果，让学员看到限定范围能避免全文重生成。",6,"现场改写一句模糊纠偏"],
+ ["合规红线与情景判断","● 涉密与个人信息不上外部模型\n● 对外发布材料必须人工终审\n● 自动化只做登录态复用与模拟填表，不破解签名与协议\n● 遵守《广告法》等法规，不夸大宣传\n● 5 道情景判断题现场研判","5 道情景题逐题研判，每题都要学员举手表决「能不能交给 AI」，再公布答案与理由。这一页态度优先于技能。",6,"逐题举手表决并说明理由"],
+ ["制作个人自检清单与小结","● 每人制作一页可执行自检清单（≥8 条）\n● 内容须包含：数据复核、口径核对、编造检查、格式检查、终审责任人\n● 下节：结业考核，可携带本清单入场","课末必须完成清单制作。明确告知：结业考核时这份清单可以带进考场，鼓励使用工具而非死记硬背。",15,"相邻学员互换清单补漏"]]},
+{k:"K12",w:"W4",t:"结业综合实操考核与复盘",min:110,
+ goals:["在 90 分钟内独立完成一项综合岗位任务","提交交付文件 + 200 字过程说明","制定 30 天应用计划"],
+ mats:["考核题组 3 套（A/B/C）","Rubric 评分表","30 天应用计划模板"],tools:"投屏、计时器、评分表、录屏（可选）",
+ pages:[
+ ["考核规则说明","● 时长 90 分钟（含素材阅读 10 分钟）\n● 从 A/B/C 三题组抽取一组\n● 可携带：学员手册、速查卡、个人自检清单\n● 禁止：助教提示、同伴交流\n● 提交：全部交付文件 + 200 字过程说明","开场 10 分钟讲清规则，强调「可带资料」是刻意的——真实工作就是开着工具干活。过程说明要包含：怎么拆解任务、迭代了几次、验收了什么。",10,"现场抽题，确认环境"],
+ ["考核进行","● 90 分钟独立完成\n● 讲师与助教全场巡视，只记录不提示\n● 观察点：指令质量、迭代行为、验收动作\n● 记录用于 Rubric「迭代与纠错」维度打分","巡视时只观察记录，绝不提示。重点观察学员是否主动做数据复核与验收——这是 L3 层能力的核心证据。",90,"独立作答，全程静默"],
+ ["评分标准公开与自评","● 四维度：指令质量 25 / 完整性规范性 30 / 迭代纠错 25 / 效率合规 20\n● 合格 70 分，优秀 85 分\n● 学员先自评，再交双讲师评分\n● 分差 >15 分由第三人仲裁","考核结束后当场公开 Rubric，让学员自评。公开标准本身就是一次教学——让学员知道好作品是什么样的。",10,"学员自评打分"],
+ ["四周能力地图复盘","● W1 敢用 → W2 常用 → W3 用好 → W4 离不开\n● 对照第一次课白板上的 Top3 痛点\n● 现场核对：这三条现在能交出去吗？","把第一天拍下的痛点照片投出来做对照，形成完整的闭环仪式感。请 3 位学员分享变化最大的一点。",10,"对照首日痛点清单"],
+ ["30 天应用计划与结业","● 每人写下 30 天计划：≥8 次真实任务、3 条指令模板复用\n● 加入迁移打卡群，每周五汇总\n● 第 15 天线上答疑，第 30 天复盘会\n● 证书与激励说明","结业不是终点。当场建立打卡群，明确第 15 天与第 30 天两个节点。公布证书规则与团队奖评选方式。",10,"签署 30 天应用计划"]]}
+];
+
+const CARDS = [
+["P01","K2","生成你的第一份月度简报","★",20,"D01 月度销售明细（脏数据版）",
+ "月底了，领导明天要看本月销售情况的简要说明，你手上只有一份原始明细表，需要在半小时内交出一份能直接发的文件。",
+ "请基于这份销售明细，生成一份本月销售情况月度简报。\n要求：1）用 Word 输出；2）篇幅控制在 1500 字以内；3）包含同比与环比图表；4）语言简洁，结论先行。",
+ "□ 已选择正确的工作空间（素材所在目录）\n□ 成功上传/引用了 D01 文件\n□ 生成了 Word 文件并可下载\n□ 含有至少一张图表\n□ 篇幅符合要求",
+ "1. 选择工作空间，指向素材目录\n2. 上传或 @ 引用 D01 文件\n3. 输入任务：目标+材料+输出格式+约束\n4. 在结果区「产物」中查看并下载\n5. 全程不超过 20 分钟，先出稿再优化",
+ "① 提示找不到文件 → 工作空间选错，重新选择素材所在目录\n② 生成的是 Markdown → 指令中明确写「输出 Word 文件」\n③ 篇幅超标 → 在指令中补一句「1500 字以内」\n④ 执行太慢 → 可随时中断，缩小要求后重发",
+ "增加一张按产品类别的对比图，并给出三条可执行建议"],
+["P02","K3","三轮迭代完善你的简报","★",25,"P01 的产出文件 + D01",
+ "第一版简报出来了，但领导说想要看分地区对比、表格要排序、最后要 PDF 版。你需要在原基础上改，而不是重做。",
+ "请在上一步的简报基础上，依次完成三轮修改（每轮单独提出，不要一次说完）：\n第 1 轮：增加一张分地区销售对比图；\n第 2 轮：把明细表格按销售额降序排列；\n第 3 轮：导出为 PDF 并下载。",
+ "□ 三轮全部在同一个任务对话中完成（未重开任务）\n□ 第 1 轮新增了分地区对比图，且原有内容保留\n□ 第 2 轮表格已按销售额降序\n□ 第 3 轮拿到 PDF 文件\n□ 每一轮都使用了「保留 X、只修改 Y」的表述",
+ "1. 在原有任务对话里继续输入，不要新建任务\n2. 使用句式：保留【X 部分】，只修改【Y 部分】，改成【具体要求】\n3. 每轮改完先自查再提下一轮\n4. 打开「变更」视图，确认改动范围是否符合预期",
+ "① 重开任务导致上下文丢失 → 回到原任务继续追问\n② 改一处结果全文重写 → 明确说「只修改第三章，其余保持不变」\n③ 找不到 PDF 导出 → 直接说「导出成 PDF」\n④ 图表没出现 → 补一句「用柱状图展示分地区销售额」",
+ "第四轮：让 AI 自查报告中的数据是否与原始表一致，并汇报检查结果"],
+["P03","K4","口语化会议记录转规范纪要","★★",20,"D02 会议纪要原始记录",
+ "部门开了一小时项目推进会，助理留下一份口语化的原始记录，里面有闲聊、有多人插话、还有没结论的讨论。你需要整理成可执行的会议纪要发给大家。",
+ "请基于这份会议原始记录，生成一份规范的会议纪要。\n要求：1）输出 Word；2）结构为「议题—决议—待办」三栏；3）待办必须包含事项、责任人、截止日三要素；4）原始记录中未明确的信息一律标注【待确认】，不得凭空推测或编造；5）800 字以内。",
+ "□ 输出为 Word 文件\n□ 包含议题、决议、待办三部分\n□ 每条待办都有责任人和截止日\n□ 无编造内容，缺失信息均标注【待确认】\n□ 篇幅符合要求",
+ "1. 上传 D02 原始记录\n2. 指令中明确结构与输出格式\n3. 务必写入防编造约束：信息缺失处标注【待确认】，不得凭空填充\n4. 生成后逐条核对待办三要素\n5. 用「变更」视图确认改动",
+ "① AI 编造了责任人 → 指令中必须写明「不得编造」\n② 结构与预期不符 → 明确列出三栏结构要求\n③ 输出格式错误 → 补写「输出 Word 文件」\n④ 闲聊内容被写入纪要 → 补一句「剔除与议题无关的闲聊内容」",
+ "额外输出一封用于发送该纪要的邮件正文（含要点摘要与待办提醒）"],
+["P04","K5","脏数据清洗与图表分析","★★",20,"D01 月度销售明细（脏数据版）",
+ "你拿到一份从系统导出的销售明细，行里混着重复记录、空值、日期格式不统一，金额还被存成了文本。直接分析出来的结论一定不对。",
+ "请处理这份销售明细：\n第一步：先报告这份数据存在哪些质量问题，不要直接分析；\n第二步：在确认处理规则后，按区域和月份统计销售额；\n第三步：生成带图表的 Excel 文件。\n要求：完成后自行复核合计金额是否与原始数据一致，并报告复核结果。",
+ "□ 先输出了数据质量报告，未跳过体检直接分析\n□ 正确处理了缺失值、重复行、格式不一致问题\n□ 输出了带图表的 Excel\n□ 图表类型选择合理（趋势/对比/占比）\n□ 完成了合计金额复核并报告结果",
+ "1. 上传 D01，指令第一步只要求「报告数据质量问题」\n2. 看报告后确认处理规则\n3. 再提出统计与图表要求\n4. 最后要求自我复核合计金额\n5. 交付 Excel",
+ "① AI 直接开始分析 → 强调「先报告质量问题，等我确认后再分析」\n② 金额算错 → 要求说明计算口径，并自行复核一次\n③ 图表看不懂 → 指定图表类型与分组维度\n④ 数字被当成文本 → 要求「将金额列转换为数值格式」",
+ "让 AI 说明选择该图表类型的理由，并给出三条基于数据的可执行建议"],
+["P05","K6","成套汇报材料（数据+报告+PPT）","★★★",35,"D01、D05 周报述职素材包、D06 公司 PPT 模板与色卡",
+ "季度述职在即，你需要同时准备数据表、分析报告和汇报 PPT。三份材料的数据必须完全对得上——口径打架是最致命的汇报事故。",
+ "请基于给定素材，依次产出成套汇报材料：\n1）数据统计 Excel（先做数据清洗与统计）；\n2）分析报告 Word（基于上一步的数据表，不更换数据源）；\n3）汇报 PPT（基于上一步的报告，套用 D06 模板，主色 #1F3B63，不超过 12 页）。\n要求：三份材料的数据口径必须完全一致，完成后交叉核对同一个关键数字。",
+ "□ 三份文件全部产出（xlsx / docx / pptx）\n□ 三份材料中的关键数字完全一致\n□ PPT 套用了模板且页数符合要求\n□ 报告结构完整（含结论与建议）\n□ 完成了交叉核对",
+ "1. 同一任务内串联三步，不要开新任务（防口径漂移）\n2. 第一步定数据源与口径\n3. 第二步写报告时强调「基于上一步的数据表」\n4. 第三步做 PPT 时强调「数字不得改动」\n5. 最后要求交叉核对同一个关键数字",
+ "① 三份材料数字对不上 → 回到同一任务内重做，检查是否中途换了数据源\n② PPT 未套模板 → 明确指定模板文件名与主色值\n③ PPT 页数超标 → 补充「不超过 12 页」约束\n④ 生成过慢 → 分步执行，先出数据再出报告",
+ "再生成一个「给客户」版本 PPT：价值先行、强调方案与收益、不超过 8 页"],
+["P06","K7","五条劣质指令改写","★★",25,"劣质指令卡 5 张（讲师发放）",
+ "团队里有人抱怨「AI 不好用」，你看了他的指令，发现问题的根源在指令本身。现在你要把五条模糊指令改写成 AI 能一次做对的说明书。",
+ "请将以下五条劣质指令，按「角色-目标-输入-输出-约束」五段式逐条改写：\n① 帮我弄个分析报告\n② 把这份会议记录整理一下\n③ 做个 PPT\n④ 帮我整理文件夹\n⑤ 每周帮我写周报\n评分标准：五段齐全（2 分）+ 约束具体可判定（1 分）+ 含防编造要求（1 分），每条满分 4 分。",
+ "□ 五条全部完成改写\n□ 每条均包含角色、目标、输入、输出、约束五段\n□ 约束段具体可执行（可量化、可判定、可检查）\n□ 至少 3 条包含「不得编造/缺失标注【待确认】」\n□ 小组互评得分 ≥ 16 分（满分 20）",
+ "1. 4 人一组，每组领取 5 张劣质指令卡\n2. 逐条诊断：缺哪一段？属于四病中的哪一种？\n3. 按五段式改写，写在卡片背面\n4. 组内互评打分，选出最佳改写 1 条\n5. 每组展示，讲师追问「这条约束怎么判定达标？」",
+ "① 写成填空题而非可执行指令 → 追问「这句话怎么判断达没达标？」\n② 约束段空泛（如「要好看」）→ 改成可判定表述\n③ 漏掉防编造要求 → 补「不确定信息标注【待确认】，不得凭空填充」\n④ 角色段写成「你是 AI」→ 改为领域角色",
+ "挑出一条本岗位最高频的任务，写成可直接复用的指令模板"],
+["P07","K8","60 个混乱文件批量整理","★★",30,"D04 混乱文件夹样本（60 个文件）",
+ "共享盘里的项目文件夹积累了一年，60 个文件混在一起，命名规则五花八门（有的是日期开头，有的是「最终版」「最终版2」，有图片有文档有表格）。人工整理要 40 分钟。",
+ "请整理这个文件夹：\n第一步：先列出你的整理方案（分类规则 + 命名规则），让我确认后再执行；\n第二步：按确认后的方案，按文件类型归类到子目录，并按「类型_日期_序号」统一重命名。\n要求：一个文件都不能少；操作前先备份原始文件。",
+ "□ 先列出了整理方案并经确认\n□ 已备份原始文件\n□ 文件按类型归入子目录\n□ 命名规则统一\n□ 整理后文件总数与原始一致（60 个，零丢失）\n□ 记录了实际耗时",
+ "1. 先把 D04 复制一份作为备份\n2. 选择 D04 所在目录为工作空间\n3. 指令：先列整理方案给我确认，不要直接执行\n4. 确认方案后再让它执行\n5. 完成后统计文件总数，用「变更」视图核对\n6. 记录耗时，与人工估算对比",
+ "① 文件数量变少 → 命名规则冲突导致覆盖，立即停止并从备份恢复\n② 提示权限不足 → 文件被占用，关闭相关程序后重试\n③ 路径含特殊字符 → 重命名父目录后重试\n④ AI 直接执行未列计划 → 中断任务，重新强调「先列计划让我确认」",
+ "追加要求：生成一份文件清单索引（含原文件名、新文件名、类型、大小）输出为 Excel"],
+["P08","K9","调用 Skill/专家完成专业任务","★★",30,"D08 SOP 文档 5 份、D09 票据扫描件 20 张",
+ "你需要完成一项带有明确专业规范的任务——要么按公司 SOP 回答流程问题，要么把一叠票据扫描件汇总成账。通用 AI 容易给出「看起来对但不合规」的答案。",
+ "二选一完成：\n【任务 A】基于 D08 五份 SOP 文档，回答指定的流程问题，要求引用具体条款并给出执行步骤；\n【任务 B】识别 D09 中 20 张票据扫描件，提取发票号码、日期、金额、供应商四项信息，汇总输出为 Excel。\n要求：调用合适的 Skill 或专家；信息缺失处标注【待确认】，不得凭空填充。",
+ "□ 成功调用了 Skill 或专家\n□ 产出具备专业结构与术语\n□ 任务 A：引用了具体 SOP 条款；任务 B：Excel 字段完整\n□ 缺失信息均标注【待确认】\n□ 产出可直接使用，无需大幅返工",
+ "1. 判断任务属于哪个专业领域\n2. 在输入框中用 @ 调用对应 Skill 或选择专家\n3. 调用后仍按五段式把需求说清楚\n4. 检查产出是否具备专业结构\n5. 复核关键信息的准确性",
+ "① 调用后产出没变化 → 检查需求是否描述清楚，调用后仍需五段式指令\n② 票据识别字段缺失 → 明确列出需要提取的字段名\n③ 答案不引用条款 → 补「请注明依据的条款编号」\n④ 模糊票据被胡乱识别 → 要求「识别不清的标注【待确认】」",
+ "将本次使用的指令沉淀为个人可复用模板，标注适用场景"],
+["P09","K10","配置一个定时自动化任务","★★",25,"D01（作为自动化数据源）",
+ "每周五下班前你都要花一小时写周报，内容高度重复。你希望这件事能自动跑起来，到点就把初稿摆在你面前。",
+ "请创建一个周期性自动化任务：每周五 17:00 自动生成一份本周工作总结。\n要求：1）任务指令必须自包含——写清数据来源路径、指标定义、输出格式（Word）、篇幅、结构（已完成/进行中/风险/下周计划）；2）任务需成功启用并完成一次测试运行；3）验证首次运行输出符合预期。",
+ "□ 任务类型选择正确（周期性，非一次性）\n□ 时间设置正确（每周五 17:00）\n□ 指令自包含：含数据路径、指标定义、输出格式、结构要求\n□ 任务状态为「已启用」\n□ 完成一次测试运行且输出符合预期",
+ "1. 新建任务，选择「周期性」\n2. 设置执行时间为每周五 17:00\n3. 编写自包含指令：假设系统完全不知道前因后果\n4. 保存并启用\n5. 手动触发一次测试运行，检查输出\n6. 查看运行记录确认无报错",
+ "① 跑出来内容发散 → 指令不自包含，补全数据来源路径与指标定义\n② 时间不对 → 检查时区和星期设置\n③ 提示找不到数据 → 检查路径是否写全、文件是否被移动\n④ 需要发送到聊天群 → 检查连接器是否已授权",
+ "追加：配置完成后，再写一个每月 1 号自动生成上月数据巡检提醒的任务"],
+["P10","K11","三份「有错样例」验收演练","★★",30,"三份预埋错误的样例文件（讲师发放，共预埋 5 处错误）",
+ "同事把 AI 生成的报告直接发给了客户，结果里面合计金额是错的、同比口径前后不一致、还有一个责任人是被 AI 编出来的。你需要练就一双能发现问题的眼睛。",
+ "三人一组，对三份样例文件逐份验收：\n1）找出全部预埋错误（共 5 处）；\n2）对每处错误说明「你是怎么发现它的」；\n3）对每处错误写出精确纠偏指令（指出具体位置 + 说明正确做法 + 限定重生成范围）。\n时间：30 分钟。",
+ "□ 找出全部 5 处错误\n□ 每处都说明了发现依据（而非凭直觉）\n□ 每处都写出了精确纠偏指令\n□ 纠偏指令均限定了重生成范围\n□ 小组完成个人自检清单（≥8 条）",
+ "1. 用验收四问逐一检查：数据来源对不对？口径一致吗？结论站得住吗？格式符合要求吗？\n2. 第五问：有没有编造的内容？\n3. 发现错误后，用「第 X 页的【指标】应为【正确值】，请只重新计算该表，其余内容保持不变」的句式纠偏\n4. 小组汇总，制作个人自检清单",
+ "① 找不出错误 → 回到验收四问，逐问过一遍\n② 只会说「不对，重写」→ 改用精确纠偏句式\n③ 纠偏后全文重写 → 明确限定「只修改第 X 部分」\n④ 数据来源无法核实 → 要求 AI 说明计算口径与数据来源",
+ "互换小组的样例，交叉验收，比较两组发现率的差异"],
+["P11","课后","周作业：本人真实岗位任务一次","★★",60,"本人真实工作材料（脱敏后使用）",
+ "课程学的再好，不落到自己的岗位上都是空的。这次作业要求你用真实材料、解决真实问题，并把过程写出来。",
+ "用 WorkBuddy 完成一件你本周的真实工作任务（任意类型均可）。\n提交：1）交付文件；2）150 字使用心得（你做了什么、AI 帮你省了哪一步、下次会怎么改）。\n注意：涉密与个人敏感信息不得上传外部模型，请脱敏后使用。",
+ "□ 使用的是本人真实工作任务\n□ 独立完成\n□ 提交了交付文件\n□ 提交了 150 字心得\n□ 未上传涉密或敏感信息",
+ "1. 挑一件本周真实要做的事（优先选高频、重复、耗时的）\n2. 按五段式写指令\n3. 完成后用验收四问自查\n4. 记录实际耗时与人工估算的对比\n5. 写心得：省了哪一步、下次怎么改",
+ "① 不知道选什么任务 → 回到 K1 的场景清单，挑高频且简单的\n② 真实数据涉密 → 脱敏处理或改用结构相同的示例数据\n③ 结果不满意 → 记录卡点，带到下周课堂讨论\n④ 耗时比手工还长 → 正常，前三次都这样，第四次开始反超",
+ "把本次任务的指令沉淀为模板，标注可复用的场景"],
+["P12","K12","结业综合实操考核","★★★",90,"按抽取题组（A/B/C）配发素材",
+ "四周学习到了验收的时刻。你要在 90 分钟内，独立完成一项完整的岗位综合任务，并对自己的成果负责。",
+ "从 A/B/C 三组题中抽取一组，在 90 分钟内独立完成（详见题库文件「结业考核题组」）。\n可携带：学员手册、一页纸速查卡、个人自检清单。\n提交：全部交付文件 + 200 字过程说明（你怎么拆解任务、迭代了几次、验收了什么）。",
+ "□ 全部交付物齐备且格式正确\n□ 数据口径一致，无编造内容\n□ 过程说明完整（拆解、迭代、验收三部分）\n□ 在 90 分钟内完成\n□ 无违规操作（涉密上传、直接外发等）",
+ "1. 前 10 分钟：读题、列计划、确认素材\n2. 中间 70 分钟：分步执行，每步完成即自查\n3. 最后 10 分钟：用验收四问全面检查，写过程说明\n4. 全程不得与同伴交流，不得请求助教提示",
+ "① 时间不够 → 先保最低交付要求（交付物齐全），再优化\n② 环境异常 → 立即举手，助教计时暂停\n③ 结果明显不对 → 用精确纠偏，不要推倒重来\n④ 不确定能不能上传某材料 → 默认不上传，改用脱敏示例",
+ "无（考核项）"]
+];
+
+const T1=[
+["T1-01","WorkBuddy 可以直接操作你电脑上的所有文件。","错误","只能访问你主动勾选授权的文件夹，系统敏感目录自动拦截，高危操作需二次确认。"],
+["T1-02","任务生成的文件可以在结果区的「产物」中查看和下载。","正确","产物视图集中展示文档、表格、PPT、报告等交付文件，支持预览、下载与分享。"],
+["T1-03","在已有任务里继续追问，AI 会带着上一次的上下文继续处理。","正确","应保持连续对话而不是每次重新开始，无需重复描述背景。"],
+["T1-04","任务一旦开始执行就不能中断，只能等它跑完。","错误","执行中可随时中断；中断后仍可补充说明、调整需求后重新发送或继续推进。"],
+["T1-05","让 AI 分析数据前，最好先让它报告数据质量问题。","正确","AI 不会拒绝脏数据，先体检再分析可避免结论全盘错误。"],
+["T1-06","AI 生成的对外发布材料可以直接发送，无需人工检查。","错误","对外材料必须人工终审，数字、责任人与口径均需核实。"],
+["T1-07","自动化任务的指令可以写得简短，系统会自动记住之前的对话。","错误","自动化指令必须自包含，写清数据路径、指标定义、输出格式与发送对象。"],
+["T1-08","「变更」视图可以查看本次任务修改了哪些文件、改了什么。","正确","这是交付前的最后一道检查，也是出问题时的回溯依据。"],
+["T1-09","五段式指令中，「约束」段可有可无，写不写差别不大。","错误","约束段是产出质量的关键差异，缺少约束会导致篇幅失控、口径不明、风格漂移。"],
+["T1-10","用 WorkBuddy 处理的文件都会上传到云端用于模型训练。","错误","文件处理默认在本地完成，服务端仅处理数据片段，用后即弃，不保存也不用于训练。"]];
+const T2=[
+["T2-01","下列四项工作中，最适合交给 WorkBuddy 独立完成的是哪一项？","A 决定公司明年的战略方向 ｜ B 把 300 行销售明细整理成带图表的分析表 ｜ C 安慰一位情绪低落的下属 ｜ D 代表公司签署合同","B","重复性、有明确输入输出的任务最适合；涉及决策判断、情感沟通、法律行为的事项不可交由 AI 独立完成。"],
+["T2-02","你拿到一份含缺失值和重复行的数据表，正确做法是？","A 直接让 AI 出结论 ｜ B 先让 AI 报告数据质量问题，确认处理规则后再分析 ｜ C 自己手工清洗完再给 AI ｜ D 换一份干净的数据","B","四步流程：先体检 → 确认处理规则 → 再分析 → 最后复核。"],
+["T2-03","需要把 60 个文件按类型归类并统一命名，最高效且安全的做法是？","A 手工一个个改 ｜ B 让 AI 先列方案，确认后再执行 ｜ C 让 AI 直接执行 ｜ D 让 AI 执行后不检查","B","安全三步：备份 → 计划 → 执行。零丢失靠确认后的规则和事后核对。"],
+["T2-04","领导要一份给客户看的方案 PPT，指令中最应该补充的信息是？","A 你的电脑型号 ｜ B 受众与价值重点 ｜ C 你的工龄 ｜ D 办公室地址","B","受众决定版本：给客户价值先行、强调方案与收益；给领导结论先行、强调风险与决策点。"],
+["T2-05","想实现每周五 17:00 自动生成周报，应使用？","A 一次性任务 ｜ B 周期性自动化任务 ｜ C 每次手动发起 ｜ D 截图工具","B","按固定周期重复执行的任务应选周期性自动化，并可设置生效区间。"],
+["T2-06","AI 给出的合计数字与你手算结果不一致时，应该？","A 相信 AI，它算得快 ｜ B 直接放弃使用 AI ｜ C 指出具体位置要求重新核算，并自行复核 ｜ D 重开一个任务重新问","C","精确纠偏句式：指出具体位置 + 说明正确做法 + 限定重生成范围。"],
+["T2-07","关于把公司涉密数据交给 AI 处理，正确做法是？","A 可以，AI 很安全 ｜ B 涉密与个人敏感信息不上外部模型，需走内部审批 ｜ C 只要删掉文件名就可以 ｜ D 只在非工作时间上传","B","合规红线之一：涉密与个人敏感信息不上外部模型。"],
+["T2-08","想让 AI 以财务专业视角审查一份成本分析，最合适的做法是？","A 把同一问题重复问三次 ｜ B 调用对应的专家或 Skill ｜ C 换一台电脑 ｜ D 改用英文提问","B","专家与 Skill 能让 AI 以专业角色视角、按固定流程处理问题。"]];
+const T3=[
+["T3-01","帮我弄个分析报告","四病全中：目标模糊、缺输入、无输出格式、无约束边界",
+"【角色】你是一名资深销售分析师。【目标】生成本月度销售情况分析报告，结论先行。【输入】基于 D01 月度销售明细（含日期、区域、产品、销售额字段）。【输出】Word 文件，结构为：总体概况 → 区域分析 → 产品分析 → 趋势与风险 → 三条可执行建议；含 2 张图表。【约束】1）先报告数据质量问题，确认规则后再分析；2）篇幅 1500 字以内；3）金额保留一位小数、单位统一为万元；4）信息缺失处标注【待确认】，不得凭空编造；5）完成后自行复核合计金额并报告结果。"],
+["T3-02","把这份会议记录整理一下","缺输入指向、无输出格式、无结构要求、无防编造约束",
+"【角色】你是一名资深的会议纪要与项目管理专员。【目标】将会议原始记录整理为可执行的会议纪要。【输入】基于上传的 D02 会议原始记录。【输出】Word 文件，按「议题—决议—待办」三栏结构呈现。【约束】1）剔除与议题无关的闲聊内容；2）每条待办必须含事项、责任人、截止日三要素；3）未明确的信息一律标注【待确认】，不得推测或编造；4）800 字以内；5）术语与公司现行说法保持一致。"],
+["T3-03","做个 PPT","四病全中：无主题、无输入、无页数与风格、无受众",
+"【角色】你是一名擅长向管理层汇报的商务演示设计师。【目标】制作季度述职汇报 PPT。【输入】基于已生成的《季度分析报告》与数据统计 Excel，不得改动任何数字。【输出】PPT 文件，不超过 12 页，套用 D06 公司模板，主色 #1F3B63。【约束】1）受众为公司管理层，结论先行，每页只讲一个重点；2）结构与报告保持一致；3）每页文字不超过 60 字；4）数字必须与报告完全一致，完成后交叉核对；5）不得添加报告中不存在的数据。"],
+["T3-04","帮我整理文件夹","目标模糊、无路径、无计划确认环节、无零丢失要求",
+"【角色】你是一名文件管理专员。【目标】整理指定文件夹，按类型归类并统一命名。【输入】工作空间为 D 盘「D04_混乱文件夹样本」，共 60 个文件。【输出】归类后的子目录结构 + 一份文件清单索引 Excel。【约束】1）第一步只列整理方案给我确认，不得直接执行；2）确认后再执行；3）命名规则统一为「类型_日期_序号」；4）一个文件都不能少，完成后报告文件总数；5）不得删除任何原始文件。"],
+["T3-05","每周帮我写周报","无数据路径、无指标定义、无结构、无篇幅、无发送对象（自动化指令不自包含的典型）",
+"【角色】你是一名项目管理办公室的汇报专员。【目标】每周五 17:00 自动生成一份本周工作总结。【输入】数据来源为 D 盘「工作盘/周报素材」目录下本周新增文件（路径固定，如文件缺失则在报告中标注【数据缺失】）。【输出】Word 文件，结构固定为四段：本周已完成 → 进行中事项 → 风险与协调 → 下周计划。【约束】1）篇幅 600-800 字；2）每条事项须注明责任人与预计完成时间；3）本指令须自包含，不依赖任何历史对话；4）信息缺失处标注【待确认】，不得编造；5）完成后自动发送到指定企业微信群。"]];
+const T4=[
+["T4-01","AI 提示找不到文件，任务无法开始。","① 工作空间未选择或选错目录；② 文件不在当前工作空间内；③ 文件名或路径含特殊字符","1）重新选择工作空间，指向素材所在目录；2）确认文件确实在该目录下；3）重命名去除特殊字符；4）重新 @ 引用或拖拽上传文件。"],
+["T4-02","生成的内容篇幅严重超标，结构混乱。","指令中缺少约束段：未限定字数、结构与信息密度","1）在指令中补写「XX 字以内」「结构为 A→B→C」；2）若已生成，用精确纠偏：「保留第三章，其余部分压缩至 800 字以内」；3）后续指令一律带上约束段。"],
+["T4-03","批量整理后发现文件数量变少了。","命名规则冲突导致同名文件被覆盖；或规则把部分文件归入错误目录","1）立即停止后续操作；2）打开「变更」视图查看改动明细；3）从操作前的备份目录恢复；4）重新设计命名规则（加入唯一序号）；5）再次执行前先在小样本上试跑。"],
+["T4-04","自动化任务每次跑出来的内容都不一样。","自动化指令不自包含，依赖历史对话或隐含前提","1）检查指令是否写全：数据来源路径、指标定义、输出格式、篇幅结构、发送对象；2）把指令当作「给一个完全不知情的人看」来重写；3）手动触发测试运行验证；4）查看运行记录确认无报错。"],
+["T4-05","上传文件时提示失败。","① 文件格式不受支持；② 文件过大；③ 网络不稳定","1）核对支持的类型（PDF/Word/TXT/Markdown/RTF/Excel/CSV/TSV/PPT/常见图片/压缩包/代码文件）；2）大文件先压缩或拆分；3）检查网络连接后重试；4）改用 @ 引用本地文件的方式。"],
+["T4-06","AI 分析出的合计数字与原始表对不上。","① 未做数据清洗（重复行、文本型数字被忽略）；② 统计口径不一致（是否含税、是否剔除退货）","1）要求 AI 说明其计算口径；2）回到第一步先做数据质量体检；3）统一口径后重新统计；4）自行抽样复核一次合计数；5）在交付前把口径写进报告注释。"],
+["T4-07","涉及企业微信/钉钉/腾讯文档的任务总是失败。","连接器未授权、授权过期或授权范围不足","1）检查连接器状态是否已授权；2）重新授权并确认范围包含目标文档/群；3）确认目标对象未被删除或改名；4）用一个只读的小任务先验证连通性，再跑正式任务。"]];
+const EXAMS=[
+["A 组","销售分析类","月底了，销售总监要求你在下班前提交本月度的销售分析，并准备一页汇报材料用于明早的部门例会。","D01 月度销售明细（脏数据版）、D06 公司 PPT 模板与色卡","1）数据统计 Excel（含清洗说明、按区域与月份统计、至少 2 张图表）\n2）分析报告 Word（1200-1500 字，结构为总体概况→区域分析→趋势与风险→三条建议）\n3）汇报 PPT（不超过 12 页，套用 D06 模板）\n4）200 字过程说明","90 分钟","侧重：数据清洗是否到位、三份材料口径是否一致、图表选择是否合理"],
+["B 组","会议与文档类","部门刚开完项目推进会，你需要把口语化的原始记录整理成可执行的纪要，并写出本周周报与一封发送邮件。","D02 会议纪要原始记录、D05 周报述职素材包","1）会议纪要 Word（议题—决议—待办三栏，待办含责任人+截止日）\n2）本周周报 Word（600-800 字，四段式结构）\n3）邮件正文（含要点摘要与待办提醒，收件人标注占位符）\n4）200 字过程说明","90 分钟","侧重：信息提取完整性、待办三要素、防编造执行度、文风与格式规范"],
+["C 组","批量处理与自动化类","共享盘里的项目文件夹积累了一年需要清理，同时你还要把三种不同模板的客户对账单归一汇总，并把对账提醒做成每周自动执行的任务。","D04 混乱文件夹样本（60 文件）、D07 客户对账单（3 模板）","1）整理后的目录结构（按类型归类、命名统一、零丢失）\n2）文件清单索引 Excel（原文件名、新文件名、类型、大小）\n3）对账汇总表 Excel（三种模板归一，含客户名称、对账期间、金额、状态）\n4）一个周期性自动化任务的配置截图 + 自包含指令文本\n5）200 字过程说明","90 分钟","侧重：批量操作安全性（先备份、先列计划）、零丢失、自动化指令自包含程度"]];
+const RUBRIC=[
+["维度一","任务理解与指令质量",25,"指令五段式完整；主动补充上下文（文件/截图/说明）；一次性说清目标与输出格式；对模糊要求主动澄清而非猜测","指令基本完整，经 1-2 轮补充后可正常推进；输出格式有说明但不全面","指令模糊，多次重发仍无法推进；未说明输出格式；未使用任务卡提供的素材"],
+["维度二","交付物完整性与规范性",30,"全部交付物齐备且格式正确；排版规范；数据口径在各文件间保持一致；结构符合任务要求","交付物齐备，格式基本符合要求；存在轻微排版或结构问题；口径偶有不一致","缺失交付物；或格式明显不符合要求；或多份材料数据相互矛盾"],
+["维度三","迭代与纠错能力",25,"主动检查数据准确性；发现并纠正了 AI 的错误；迭代指令精确限定了修改范围；过程说明清晰完整","能在提示下发现问题并完成修改；迭代基本有效；过程说明较简略","未做任何检查直接提交；存在明显错误未发现；迭代时反复推倒重来"],
+["维度四","效率与合规",20,"用时合理；主动备份原始文件；严格遵守安全红线与外发规范；信息缺失处正确标注【待确认】","用时偏长但在时限内完成；未出现违规操作；偶有未标注的推测内容","严重超时；或出现违规操作（如上传涉密信息、直接生成对外发布内容未经标注）"]];
+const MATS=[
+["D01","月度销售明细（脏数据版）","300 行 xlsx，含缺失值、重复行、日期格式不统一、金额存为文本、含退货负数行","数据清洗与分析","K5 / P04","坑要埋得真实但不至于无法处理；金额列务必设为文本型","胜负手"],
+["D02","会议纪要原始记录","口语化 txt，约 2000 字，含无关闲聊、多人发言未标注、两处无结论讨论","文档生成与信息提取","K4 / P03","至少留 3 处信息缺失，用于训练【待确认】标注",""],
+["D03","采购询价清单","5 家供应商 PDF 扫描件，版式各不相同（表格型/段落型/手写备注）","多文件信息汇总","K5 / P05","版式差异要明显，体现 AI 的格式适应能力",""],
+["D04","混乱文件夹样本","60 个文件：图片/文档/表格混合；命名含中文、空格、特殊字符；有「最终版」「最终版2」","批量文件处理","K8 / P07","务必记录原始文件清单与总数，用于零丢失核对","胜负手"],
+["D05","周报述职素材包","要点草稿（零散笔记）+ 数据表 + 上期周报（作格式参考）","报告与 PPT 生成","K6 / P05","草稿要足够零散，让学员体会整理的价值",""],
+["D06","公司 PPT 模板 + 品牌色卡","含母版、字体规范、主辅色值、示例页","PPT 风格一致性","K6","主色值需明确到 #RRGGBB，便于写进指令",""],
+["D07","客户对账单（多模板）","3 种模板 × 若干客户，日期格式为 2025/2026/2027 三种写法","格式归一与对账","K8 / 考核 C 组","日期格式必须三种都有，考察归一能力",""],
+["D08","SOP 文档 5 份","标准作业流程文本，含条款编号","知识检索与专业问答","K9 / P08","条款需可引用，便于检验 AI 是否引用了具体条款",""],
+["D09","票据扫描件 20 张","发票/收据图片，其中 3 张刻意模糊、2 张信息不全","图片识别与信息提取","K9 / P08","模糊样本用于训练【待确认】而非编造",""],
+["D10","公开网页链接清单","10 条行业公开信息链接（均为可公开访问的正规来源）","深度研究与报告","K4 / K9","链接需课前验证可访问",""]];
+const ENV=[
+"WorkBuddy 账号登录：桌面端可正常登录并进入主界面",
+"客户端版本：已升级至最新版本",
+"工作空间授权：已授权一个专用练习目录（建议 D 盘 WorkBuddy 培训），不含涉密文件",
+"素材包下载：D01-D10 全部解压至练习目录",
+"Office/WPS：可正常打开 docx / xlsx / pptx",
+"网络连接：可正常调用模型，连续 3 次响应无超时",
+"连接器授权：企业微信/钉钉/腾讯文档至少一个已授权（第 4 周前完成即可）",
+"磁盘空间：剩余 ≥5GB",
+"截图工具：掌握 Win+Shift+S（或等效快捷键）",
+"中文输入法：可流畅输入中文",
+"双设备（建议项）：电脑看投屏 + 平板/手机看任务卡",
+"本人真实任务：带来 1 个本周真实待办任务（脱敏后使用）"];
+const TL=[
+["T-7 天","确认学员名单、开通账号、发放环境准备手册"],
+["T-5 天","收集学员岗位与高频工作场景，用于定制示例（场景清单须覆盖 Top3 痛点）"],
+["T-3 天","准备并脱敏全部素材 D01-D10（脱敏复核签字）"],
+["T-3 天","制作任务卡 12 张、速查卡、学员手册（打印装订完成）"],
+["T-2 天","制作课件（参照逐页大纲，12 课时课件齐备）"],
+["T-1 天","全流程演练：每课时按真实时长走完一遍（时间误差 ≤3 分钟）"],
+["T-1 天","回收并核对环境检查表，未达标者逐个跟进"],
+["T-0 当天","提前 40 分钟到场：投屏测试、网络测速、素材二次核验、计时器就位"],
+["每周课后","收集情绪卡与作业，更新下周课件中的共性问题页（版本号更新）"]];
+const RISKS=[
+["网络中断或模型响应慢","中 / 高","启用备用手机热点；播放离线版演示视频；改为讲师投屏演示 + 学员记要点，实操顺延至课后补练"],
+["学员账号异常无法登录","中 / 中","启用 2 个备用账号；安排与邻座结对共用一台设备"],
+["生成结果超时，实操时间不足","高 / 中","任务卡设「最低完成要求」保证人人拿到部分成果；课后开放 15 分钟补练"],
+["素材包未下载或解压失败","中 / 中","现场 U 盘 + 局域网共享双通道发放"],
+["学员担心数据外泄而消极参与","高 / 高","第一课讲透本地处理与授权边界；全程使用脱敏素材；允许学员使用自选示例数据"],
+["课堂进度两极分化","高 / 中","启用进阶挑战卡；邻座「小老师」结对；多数学员卡同一处时立即叫停统一补讲（≤3 分钟）"],
+["交付物质量不及预期，学员失去信心","中 / 高","使用「失败样例」教学设计，把错误转化为教学素材；强调迭代是常态而非失败"],
+["批量操作导致文件丢失（演练中）","低 / 高","课前强制备份；发生即停止操作，用「变更」视图定位并从备份恢复"]];
+
+/* ==================== RENDER ==================== */
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+// lessons
+document.getElementById("lessons").innerHTML = LESSONS.map((L,i)=>`
+<div class="lesson" data-w="${L.w}">
+  <div class="lesson-head" onclick="this.parentElement.classList.toggle('open')">
+    <div class="kcode">${L.k}</div>
+    <div class="lt"><b>${esc(L.t)}</b><span>第 ${L.w.slice(1)} 周 ｜ ${L.min} 分钟 ｜ ${L.pages.length} 页 ｜ 素材：${esc(L.mats.join("、"))}</span></div>
+    <span class="arrow">▶</span>
+  </div>
+  <div class="lesson-body">
+    <div class="goal"><b>教学目标：</b>${L.goals.map(esc).join(" ｜ ")}</div>
+    <div class="goal" style="background:#EFF4FB"><b>教具：</b>${esc(L.tools)}</div>
+    <table class="pages">
+      <tr><th style="width:40px">页</th><th style="width:200px">页标题</th><th>页面要点</th><th style="width:330px">讲师演示脚本</th><th style="width:56px">时长</th><th style="width:150px">互动设计</th></tr>
+      ${L.pages.map((p,j)=>`<tr><td>${j+1}</td><td><b>${esc(p[0])}</b></td><td class="point">${esc(p[1])}</td><td class="script">${esc(p[2])}</td><td>${p[3]}′</td><td>${esc(p[4])}</td></tr>`).join("")}
+    </table>
+  </div>
+</div>`).join("");
+
+// task cards
+const dclr={"★":"ok","★★":"blue","★★★":"warn"};
+document.getElementById("cards").innerHTML = CARDS.map(c=>`
+<div class="tcard" data-d="${c[3]}">
+  <div class="tcard-head" onclick="this.parentElement.classList.toggle('open')">
+    <span class="pill navy">${c[0]}</span><span class="muted">${c[1]}</span>
+    <div class="lt" style="flex:1"><b>${esc(c[2])}</b></div>
+    <span class="pill ${dclr[c[3]]}">${c[3]}</span><span class="muted">${c[4]}′</span><span class="arrow">▶</span>
+  </div>
+  <div class="tcard-body">
+    <div class="tb"><b>① 场景背景</b>${esc(c[5+0*0])?esc(c[5]):esc(c[5])}</div>
+    <div class="tb"><b>② 初始素材</b>${esc(c[5])?esc(c[5]):""}</div>
+    <div class="tb pre"><b>③ 任务要求</b>${esc(c[7])}</div>
+    <div class="tb chk"><b>④ 验收标准</b>${esc(c[8])}</div>
+    <div class="tb pre"><b>⑤ 参考步骤</b>${esc(c[9])}</div>
+    <div class="tb pre"><b>⑤ 常见报错与处置</b>${esc(c[10])}</div>
+    <div class="tb" style="grid-column:1/-1"><b>⭐ 进阶挑战</b>${esc(c[11])}</div>
+  </div>
+</div>`).join("");
+// fix scene/material boxes
+document.querySelectorAll("#cards .tcard").forEach((el,i)=>{
+  const c=CARDS[i]; const boxes=el.querySelectorAll(".tb");
+  boxes[0].innerHTML="<b>① 场景背景</b>"+esc(c[6]);
+  boxes[1].innerHTML="<b>② 初始素材</b>"+esc(c[5]);
+});
+
+// quizzes
+document.getElementById("q1").innerHTML=T1.map(q=>`<details class="qitem"><summary>${q[0]}　${esc(q[1])}</summary><div class="ans">答案：<span class="pill ${q[2]==="正确"?"ok":"bad"}">${q[2]}</span>　<span class="muted">${esc(q[3])}</span></div></details>`).join("");
+document.getElementById("q2").innerHTML=T2.map(q=>`<details class="qitem"><summary>${q[0]}　${esc(q[1])}</summary><div class="ans" style="color:#44506A">${esc(q[2])}</div><div class="ans">答案：<span class="pill navy">${q[3]}</span>　<span class="muted">${esc(q[4])}</span></div></details>`).join("");
+document.getElementById("q3").innerHTML=T3.map(q=>`<details class="qitem"><summary>${q[0]}　劣质指令：「${esc(q[1])}」</summary><div class="ans"><span class="pill warn">病症</span>　${esc(q[2])}</div><div class="ans"><span class="pill navy">参考答案</span><div class="tb pre" style="margin-top:6px">${esc(q[3])}</div></div></details>`).join("");
+document.getElementById("q4").innerHTML=T4.map(q=>`<details class="qitem"><summary>${q[0]}　现象：${esc(q[1])}</summary><div class="ans"><span class="pill blue">可能原因</span>　${esc(q[2])}</div><div class="ans"><span class="pill navy">排查步骤</span>　${esc(q[3])}</div></details>`).join("");
+document.getElementById("exams").innerHTML=EXAMS.map(e=>`<details class="qitem"><summary>${e[0]}　${esc(e[1])}　<span class="muted">（${e[5]}）</span></summary>
+<div class="ans"><b>场景：</b>${esc(e[2])}</div>
+<div class="ans"><b>配发素材：</b>${esc(e[3])}</div>
+<div class="ans"><b>交付物清单：</b><div class="tb pre" style="margin-top:6px">${esc(e[4])}</div></div>
+<div class="ans"><span class="pill navy">评分侧重</span>　${esc(e[6])}</div></details>`).join("");
+document.getElementById("rubric").innerHTML=RUBRIC.flatMap(r=>[`<div>${r[0]}<br><span class="muted" style="font-weight:400">${esc(r[1])}</span></div>`,
+`<div><b>优秀（90-100%）：</b>${esc(r[3])}<br><br><b>达标（70-89%）：</b>${esc(r[4])}<br><br><b class="bad" style="color:var(--bad)">待改进（＜70%）：</b>${esc(r[5])}</div>`,
+`<div><span style="font-size:20px">${r[2]}</span><br>分</div>`]).join("");
+
+// tab4
+document.getElementById("mats").innerHTML=`<tr><th>编号</th><th>素材名称</th><th>内容说明</th><th>用途</th><th>使用课时</th><th>准备要点</th><th>标记</th></tr>`+
+MATS.map(m=>`<tr><td><b>${m[0]}</b></td><td>${esc(m[1])}</td><td class="script">${esc(m[2])}</td><td>${esc(m[3])}</td><td>${esc(m[4])}</td><td class="script">${esc(m[5])}</td><td>${m[6]?`<span class="pill warn">${m[6]}</span>`:""}</td></tr>`).join("");
+document.getElementById("envchk").innerHTML=ENV.map((e,i)=>`<div><b>${i+1}.</b> ${esc(e)}</div>`).join("");
+document.getElementById("timeline").innerHTML=TL.map(t=>`<div class="ti"><b>${t[0]}</b>　${esc(t[1])}</div>`).join("");
+document.getElementById("risks").innerHTML=`<tr><th>风险</th><th>概率/影响</th><th>应急预案</th></tr>`+RISKS.map(r=>`<tr><td>${esc(r[0])}</td><td style="white-space:nowrap">${r[1]}</td><td class="script">${esc(r[2])}</td></tr>`).join("");
+
+/* ==================== INTERACTION ==================== */
+// tabs
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on"));
+  document.querySelectorAll("section.tab").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on");
+  document.getElementById(b.dataset.t).classList.add("on");
+  window.scrollTo({top:0});
+});
+// week filter
+document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('[data-w]').forEach(x=>x.classList.remove("on"));
+  b.classList.add("on");
+  const w=b.dataset.w;
+  document.querySelectorAll("#lessons .lesson").forEach(el=>{
+    el.style.display=(w==="all"||el.dataset.w===w)?"":"none";
+  });
+});
+// expand all
+let openAll=false;
+document.getElementById("expandAll").onclick=()=>{
+  openAll=!openAll;
+  document.querySelectorAll("#lessons .lesson").forEach(el=>el.classList.toggle("open",openAll));
+};
+// difficulty filter
+document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('[data-d]').forEach(x=>x.classList.remove("on"));
+  b.classList.add("on");
+  const d=b.dataset.d;
+  document.querySelectorAll("#cards .tcard").forEach(el=>{
+    el.style.display=(d==="all"||el.dataset.d===d)?"":"none";
+  });
+});
+</script>
+</body>
+</html>
